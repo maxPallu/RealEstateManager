@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
+
+    <ImageView
+        android:id="@+id/estateImage"
+        android:layout_width="76dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/estateType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:text="Flat"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/estateImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/estateCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manhattan"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="2dp"
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/estateType"
+        app:layout_constraintStart_toEndOf="@+id/estateImage"/>
+
+    <TextView
+        android:id="@+id/estatePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="35dp"
+        android:text="$17,870,000"
+        android:textSize="20dp"
+        android:textColor="#F06292"
+        app:layout_constraintTop_toBottomOf="@+id/estateCity"
+        app:layout_constraintStart_toEndOf="@+id/estateImage"/>
+
+
+</android.support.constraint.ConstraintLayout>
