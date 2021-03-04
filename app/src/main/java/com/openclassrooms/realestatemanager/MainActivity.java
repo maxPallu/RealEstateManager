@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.configureFragment();
+        this.configureDetailFragment();
 
         mEstates = DI.getEstateApiService().getEstates();
 
@@ -73,13 +74,26 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-private void configureFragment() {
-    detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+    private void configureFragment() {
 
-    if(mainFragment == null && findViewById(R.id.frame_layout_detail) != null) {
-        mainFragment = new MainFragment();
+        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main_mobile);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_main, detailFragment).commit();
+        if(mainFragment == null) {
+
+            mainFragment = new MainFragment();
+
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_main_mobile, mainFragment).commit();
+        }
     }
-}
+
+    private void configureDetailFragment() {
+
+        detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+
+        if(detailFragment == null && findViewById(R.id.frame_layout_detail) != null) {
+            detailFragment = new DetailFragment();
+
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_detail, detailFragment).commit();
+        }
+    }
 }
