@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,11 +24,15 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private Context mContext;
     private List<EstateItem> mEstates;
+    private MainFragment mainFragment;
+    private DetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+        setContentView(R.layout.activity_main);
+
+        this.configureFragment();
 
         mEstates = DI.getEstateApiService().getEstates();
 
@@ -67,4 +72,14 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+private void configureFragment() {
+    detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+
+    if(mainFragment == null && findViewById(R.id.frame_layout_detail) != null) {
+        mainFragment = new MainFragment();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_main, detailFragment).commit();
+    }
+}
 }
