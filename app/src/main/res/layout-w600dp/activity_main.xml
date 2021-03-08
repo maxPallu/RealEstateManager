@@ -9,7 +9,16 @@
         android:id="@+id/frame_layout_main"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="20" />
+        android:layout_weight="20">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:padding="4dp" />
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frame_layout_detail"
