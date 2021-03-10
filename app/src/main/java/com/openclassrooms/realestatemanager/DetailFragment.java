@@ -1,15 +1,55 @@
 package com.openclassrooms.realestatemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class DetailFragment extends Fragment {
 
+    private TextView detailSurface;
+    private TextView detailRoom;
+    private TextView detailCity;
+    private TextView detailAdress;
+
+    private String estateSurface;
+    private String estateRoom;
+    private String estateCity;
+    private String estateAdress;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+
+        detailSurface =  view.findViewById(R.id.surfaceText);
+        detailRoom = view.findViewById(R.id.numberRoomText);
+        detailCity = view.findViewById(R.id.locationCity);
+        detailAdress = view.findViewById(R.id.locationAdress);
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Bundle bundle = this.getArguments();
+
+        if(bundle != null) {
+            estateSurface = bundle.getString("estateSurface");
+            estateRoom = bundle.getString("estateRoom");
+            estateCity = bundle.getString("estateCity");
+            estateAdress = bundle.getString("estateAdress");
+
+            detailSurface.setText(estateSurface + " sq m");
+            detailRoom.setText(estateRoom);
+            detailCity.setText(estateCity);
+            detailAdress.setText(estateAdress);
+        }
     }
 }

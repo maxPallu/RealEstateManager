@@ -1,7 +1,15 @@
 package com.openclassrooms.realestatemanager;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.preference.PreferenceScreen;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +54,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
 
     @Override
     public void onBindViewHolder(EstateViewHolder holder, int position) {
+
         final EstateItem currentItem = mEstateList.get(position);
 
         holder.estateType.setText(currentItem.getEstateType());
@@ -55,18 +64,48 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), DetailActivity.class);
 
-                intent.putExtra("estateType", currentItem.getEstateType());
-                intent.putExtra("estateCity", currentItem.getEstateCity());
-                intent.putExtra("estatePrice", currentItem.getEstatePrice());
-                intent.putExtra("estateRoom", currentItem.getEstateRoom());
-                intent.putExtra("estateSurface", currentItem.getEstateSurface());
-                intent.putExtra("estateAdress", currentItem.getEstateAdress());
+                boolean is_tablet = view.getResources().getBoolean(R.bool.is_tablet);
 
-                view.getContext().startActivity(intent);
+                if(is_tablet) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("estateType", currentItem.getEstateType());
+                    bundle.putString("estateCity", currentItem.getEstateCity());
+                    bundle.putString("estatePrice", currentItem.getEstatePrice());
+                    bundle.putString("estateRoom", currentItem.getEstateRoom());
+                    bundle.putString("estateSurface", currentItem.getEstateSurface());
+                    bundle.putString("estateAdress", currentItem.getEstateAdress());
+                    createFragment(view.getContext());
+
+                } else {
+                    Intent intent = new Intent(view.getContext(), DetailActivity.class);
+
+                    intent.putExtra("estateType", currentItem.getEstateType());
+                    intent.putExtra("estateCity", currentItem.getEstateCity());
+                    intent.putExtra("estatePrice", currentItem.getEstatePrice());
+                    intent.putExtra("estateRoom", currentItem.getEstateRoom());
+                    intent.putExtra("estateSurface", currentItem.getEstateSurface());
+                    intent.putExtra("estateAdress", currentItem.getEstateAdress());
+
+                    view.getContext().startActivity(intent);
+                }
             }
         });
+    }
+
+    private void createFragment(Context context) {
+        DetailFragment detailFragment = new DetailFragment();
+
+        detailFragment = (DetailFragment) ((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+
+        if(detailFragment == null && ((FragmentActivity) context).findViewById(R.id.frame_layout_detail) != null) {
+            DetailFragment fragment = new DetailFragment();
+
+            FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+
+            ft.replace(R.id.frame_layout_detail, fragment);
+            ft.commit();
+        }
     }
 
     @Override

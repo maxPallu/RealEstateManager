@@ -76,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureFragment() {
 
-        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main_mobile);
+        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
 
         if(mainFragment == null) {
 
             mainFragment = new MainFragment();
 
-            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_main_mobile, mainFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_main, mainFragment).commit();
         }
     }
 
