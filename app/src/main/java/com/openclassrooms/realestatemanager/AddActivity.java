@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.DI.DI;
+import com.openclassrooms.realestatemanager.database.Database;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -24,6 +25,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private TextInputEditText adress;
 
     private EstateAPI mApi;
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         surface.getEditText().getText().toString(), numberRoom, city.getText().toString(), adress.getText().toString());
 
                 mApi.createEstate(item);
+                db.estateDao().insertItem(item);
 
                 finish();
             }
