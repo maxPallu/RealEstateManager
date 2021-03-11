@@ -24,6 +24,28 @@ public class EstateItem {
         estateAdress = adress;
     }
 
+    public EstateItem(int id, String type, String price, String surface, String numberRoom, String city, String adress) {
+        id = id;
+        estateType = type;
+        estatePrice = price;
+        estateSurface = surface;
+        estateRoom = numberRoom;
+        estateCity = city;
+        estateAdress = adress;
+    }
+
+    public EstateItem() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getEstateType() {
         return estateType;
     }
