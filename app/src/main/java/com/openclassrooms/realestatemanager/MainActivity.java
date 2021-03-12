@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         if(detailFragment == null && findViewById(R.id.frame_layout_detail) != null) {
             detailFragment = new DetailFragment();
 
-            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_detail, detailFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_detail, detailFragment, "DetailFragment").commit();
         }
     }
 }

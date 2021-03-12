@@ -1,13 +1,18 @@
 package com.openclassrooms.realestatemanager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.SupportMapFragment;
 
 public class DetailFragment extends Fragment {
 
@@ -31,6 +36,11 @@ public class DetailFragment extends Fragment {
         detailCity = view.findViewById(R.id.locationCity);
         detailAdress = view.findViewById(R.id.locationAdress);
 
+        createMap(view.getContext());
+
+        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+
+
         return view;
     }
 
@@ -51,5 +61,10 @@ public class DetailFragment extends Fragment {
             detailCity.setText(estateCity);
             detailAdress.setText(estateAdress);
         }
+    }
+
+    public void createMap(Context context) {
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+
     }
 }

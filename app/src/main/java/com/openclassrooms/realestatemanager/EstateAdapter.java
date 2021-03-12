@@ -53,7 +53,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
     }
 
     @Override
-    public void onBindViewHolder(EstateViewHolder holder, int position) {
+    public void onBindViewHolder(final EstateViewHolder holder, int position) {
 
         final EstateItem currentItem = mEstateList.get(position);
 
@@ -75,7 +75,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     bundle.putString("estateRoom", currentItem.getEstateRoom());
                     bundle.putString("estateSurface", currentItem.getEstateSurface());
                     bundle.putString("estateAdress", currentItem.getEstateAdress());
-                    createFragment(view.getContext());
+                    createFragment(view.getContext(), bundle);
 
                 } else {
                     Intent intent = new Intent(view.getContext(), DetailActivity.class);
@@ -89,18 +89,25 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
 
                     view.getContext().startActivity(intent);
                 }
+
+                holder.itemView.setBackgroundColor(view.getResources().getColor(R.color.background));
             }
         });
     }
 
-    private void createFragment(Context context) {
+    private void createFragment(Context context, Bundle bundle) {
         DetailFragment detailFragment = new DetailFragment();
 
-        detailFragment = (DetailFragment) ((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+        detailFragment = (DetailFragment) ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag("DetailFragment");
+
+        if(detailFragment != null) {
+            detailFragment.setArguments(bundle);
+            detailFragment.onResume();
+        }
 
         if(detailFragment == null && ((FragmentActivity) context).findViewById(R.id.frame_layout_detail) != null) {
             DetailFragment fragment = new DetailFragment();
-
+            fragment.setArguments(bundle);
             FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
 
             ft.replace(R.id.frame_layout_detail, fragment);
