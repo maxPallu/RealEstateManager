@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.SupportMapFragment;
+// import com.google.android.gms.maps.GoogleMapOptions;
+// import com.google.android.gms.maps.SupportMapFragment;
 
 public class DetailFragment extends Fragment {
 
@@ -38,7 +38,7 @@ public class DetailFragment extends Fragment {
 
         createMap(view.getContext());
 
-        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+     //   GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
 
 
         return view;
@@ -64,7 +64,7 @@ public class DetailFragment extends Fragment {
     }
 
     public void createMap(Context context) {
-        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        // SupportMapFragment mapFragment = SupportMapFragment.newInstance();
 
     }
 }

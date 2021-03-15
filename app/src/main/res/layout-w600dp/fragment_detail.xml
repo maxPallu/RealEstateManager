@@ -215,18 +215,18 @@
                 app:layout_constraintStart_toEndOf="@+id/location"
                 app:layout_constraintTop_toBottomOf="@+id/locationCity" />
 
-            <fragment
-                android:id="@+id/mapDetail"
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cameraZoom="13"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/locationAdress"
-                app:layout_constraintTop_toBottomOf="@+id/locationText"
-                app:liteMode="true"
-                app:mapType="normal" />
+            <!-- <fragment
+                 android:id="@+id/mapDetail"
+                 android:name="com.google.android.gms.maps.MapFragment"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 app:cameraZoom="13"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toEndOf="@+id/locationAdress"
+                 app:layout_constraintTop_toBottomOf="@+id/locationText"
+                 app:liteMode="true"
+                 app:mapType="normal" /> -->
 
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>
