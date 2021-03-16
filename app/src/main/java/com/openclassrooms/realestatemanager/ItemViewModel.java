@@ -1,0 +1,52 @@
+package com.openclassrooms.realestatemanager;
+
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModel;
+import android.support.annotation.Nullable;
+
+import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
+
+import java.util.List;
+import java.util.concurrent.Executor;
+
+public class ItemViewModel extends ViewModel {
+
+    private final ItemDataRepository itemDataSource;
+    private final Executor executor;
+
+    @Nullable
+    private LiveData<List<EstateItem>> currentItem;
+
+    public ItemViewModel(ItemDataRepository itemDataSource, Executor executor) {
+        this.itemDataSource = itemDataSource;
+        this.executor = executor;
+    }
+
+    public void init(long id) {
+        if(this.currentItem != null) {
+            return;
+        }
+        currentItem = itemDataSource.getItems(id);
+    }
+
+    public LiveData<List<EstateItem>> getItem(long id) { return itemDataSource.getItems(id); }
+
+    public void createItem(EstateItem item) {
+        executor.execute(() -> {
+            itemDataSource.createItem(item);
+        });
+    }
+
+    public void deleteItem(long id) {
+        executor.execute(() -> {
+            itemDataSource.deleteItem(id);
+        });
+    }
+
+    public void updateItem(EstateItem item) {
+        executor.execute(() -> {
+            itemDataSource.updateItem(item);
+        });
+    }
+
+}
