@@ -2,22 +2,28 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 
 import com.openclassrooms.realestatemanager.DI.DI;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -26,14 +32,32 @@ public class MainActivity extends AppCompatActivity {
     private List<EstateItem> mEstates;
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
+    private ItemViewModel itemViewModel;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         this.configureFragment();
         this.configureDetailFragment();
+
+        drawer = findViewById(R.id.activity_main_drawer_layout);
+        NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
+        View headerLayout = navigationView.getHeaderView(0);
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
         mEstates = DI.getEstateApiService().getEstates();
 
@@ -95,5 +119,30 @@ public class MainActivity extends AppCompatActivity {
 
             getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_detail, detailFragment, "DetailFragment").commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_estates:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MainFragment()).commit();
+                break;
+            case R.id.menu_map:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MapFragment()).commit();
+                break;
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
     }
 }

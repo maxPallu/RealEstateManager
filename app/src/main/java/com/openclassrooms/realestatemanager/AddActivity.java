@@ -1,20 +1,25 @@
 package com.openclassrooms.realestatemanager;
 
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.annotation.Nullable;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.DI.DI;
-import com.openclassrooms.realestatemanager.database.Database;
-import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
+import com.openclassrooms.realestatemanager.Injection.Injection;
+import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -26,7 +31,9 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private TextInputEditText adress;
 
     private EstateAPI mApi;
-    private ItemDataRepository itemDataRepository;
+    private ItemViewModel itemViewModel;
+
+    private ArrayList<EstateItem> mItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,17 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         surface = findViewById(R.id.textSurface);
         city = findViewById(R.id.cityText);
         adress = findViewById(R.id.textAdress);
+
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+        this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
+            @Override
+            public void onChanged(@Nullable List<EstateItem> estateItems) {
+                mItems.clear();
+                mItems.addAll(estateItems);
+            }
+        });
+
 
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type));
         ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.number));
@@ -73,7 +91,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         surface.getEditText().getText().toString(), numberRoom, city.getText().toString(), adress.getText().toString());
 
                 mApi.createEstate(item);
-                itemDataRepository.createItem(item);
+                itemViewModel.createItem(item);
 
                 finish();
             }

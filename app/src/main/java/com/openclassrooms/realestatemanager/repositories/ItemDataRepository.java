@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.repositories;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.realestatemanager.EstateItem;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
@@ -16,6 +16,8 @@ public class ItemDataRepository {
     }
 
     public LiveData<List<EstateItem>> getItems(long id) { return  this.estateDao.getItems(id); }
+
+    public LiveData<List<EstateItem>> getAllItems() { return this.estateDao.getAllItems(); }
 
     public void createItem(EstateItem item) { estateDao.insertItem(item); }
 

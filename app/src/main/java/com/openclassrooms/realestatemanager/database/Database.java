@@ -1,19 +1,20 @@
 package com.openclassrooms.realestatemanager.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 import android.content.ContentValues;
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.openclassrooms.realestatemanager.EstateItem;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
 
 import javax.security.auth.callback.Callback;
 
-@android.arch.persistence.room.Database(entities = EstateItem.class, version = 1, exportSchema = false)
+@androidx.room.Database(entities = EstateItem.class, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     private static volatile Database INSTANCE;
@@ -46,7 +47,7 @@ public abstract class Database extends RoomDatabase {
                 contentValues.put("estatePrice", "250000");
                 contentValues.put("estateCity", "Los Angeles");
 
-                db.insert("Estate", OnConflictStrategy.IGNORE, contentValues);
+                db.insert("EstateItem", OnConflictStrategy.IGNORE, contentValues);
             }
         };
     }
