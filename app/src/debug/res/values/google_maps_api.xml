@@ -1,7 +1,5 @@
 <resources>
     <!--
-    TODO: Before you run your application, you need a Google Maps API key.
-
     To get one, follow this link, follow the directions and press "Create" at the end:
 
     https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=1B:6C:D9:7C:7D:3D:AF:A0:53:A1:03:6A:1B:4A:D5:DC:67:C0:DB:D3%3Bcom.openclassrooms.realestatemanager
@@ -20,5 +18,5 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY_HERE</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyC_xgD6R-yxQK5ZkL4gknpSH5ND2-BFZck</string>
 </resources>
