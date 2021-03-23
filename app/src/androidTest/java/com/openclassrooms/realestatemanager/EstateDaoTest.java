@@ -27,7 +27,7 @@ public class EstateDaoTest {
 
     @Before
     public void initDb() throws Exception {
-        this.database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(), Database.class)
+        this.database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getInstrumentation().getContext(), Database.class)
                 .allowMainThreadQueries()
                 .build();
     }

@@ -12,6 +12,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
@@ -20,7 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.openclassrooms.realestatemanager.DI.DI;
+import com.openclassrooms.realestatemanager.Injection.Injection;
+import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Context mContext;
-    private List<EstateItem> mEstates;
+    private ArrayList<EstateItem> mEstates = new ArrayList<>();
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
     private ItemViewModel itemViewModel;
@@ -42,7 +49,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+        this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
+            @Override
+            public void onChanged(List<EstateItem> estateItems) {
+                mEstates.clear();
+                mEstates.addAll(estateItems);
+            }
+        });
 
         this.configureFragment();
         this.configureDetailFragment();
@@ -59,8 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
-        mEstates = DI.getEstateApiService().getEstates();
-
         mContext = this.getApplicationContext();
 
         mRecyclerView = findViewById(R.id.recycler_view);
@@ -74,9 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        mEstates.clear();
-        mEstates.addAll(DI.getEstateApiService().getEstates());
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override

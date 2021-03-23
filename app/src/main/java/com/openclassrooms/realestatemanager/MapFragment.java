@@ -5,9 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,14 +31,24 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.openclassrooms.realestatemanager.DI.DI;
+import com.openclassrooms.realestatemanager.Injection.Injection;
+import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.models.Result;
+import com.openclassrooms.realestatemanager.util.ApiCalls;
 import com.openclassrooms.realestatemanager.util.PermissionUtils;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnPoiClickListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnPoiClickListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, ApiCalls.Callbacks {
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private boolean permissionDenied = false;
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private ArrayList<EstateItem> mEstateItems = new ArrayList<>();
+    private ItemViewModel itemViewModel;
 
     @Nullable
     @Override
@@ -53,6 +66,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this.getContext());
+        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+        this.itemViewModel.getAllItems().observe(getViewLifecycleOwner(), new Observer<List<EstateItem>>() {
+            @Override
+            public void onChanged(List<EstateItem> estateItems) {
+                mEstateItems.addAll(estateItems);
+
+                for(int i = 0; i<mEstateItems.size(); i++) {
+                    getAdress(mEstateItems.get(i).getEstateAdress());
+                }
+            }
+        });
     }
 
     @Override
@@ -92,10 +118,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 mMap.setMyLocationEnabled(true);
             }
         } else {
-            // Permission to access the location is missing. Show rationale and request permission
             PermissionUtils.requestPermission((AppCompatActivity) this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, true);
         }
+    }
+
+    private void getAdress(String adress) {
+        String location = adress.replace(" ", "+");
+        ApiCalls.fetchLocations(this, location);
+    }
+
+    private void setupMarkers(List<Result> locations) {
+        for(int i = 0; i<locations.size(); i++) {
+            double lat = locations.get(i).getGeometry().getLocation().getLat();
+            double lng = locations.get(i).getGeometry().getLocation().getLng();
+
+            LatLng latLng = new LatLng(lat, lng);
+            mMap.addMarker(new MarkerOptions()
+            .position(latLng)
+            .title(mEstateItems.get(i).getEstateType()));
+        }
+
     }
 
     private void getDeviceLocation() {
@@ -132,5 +175,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
         mMap.moveCamera(cameraUpdate);
+    }
+
+
+    @Override
+    public void onResponse(@Nullable List<Result> locations) {
+        setupMarkers(locations);
+    }
+
+    @Override
+    public void onFailure() {
+
     }
 }

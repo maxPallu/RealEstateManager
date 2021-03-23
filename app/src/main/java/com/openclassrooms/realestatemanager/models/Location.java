@@ -43,44 +43,6 @@ class AddressComponent {
 
 }
 
-class Geometry {
-
-    @SerializedName("location")
-    @Expose
-    private Location_ location;
-    @SerializedName("location_type")
-    @Expose
-    private String locationType;
-    @SerializedName("viewport")
-    @Expose
-    private Viewport viewport;
-
-    public Location_ getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location_ location) {
-        this.location = location;
-    }
-
-    public String getLocationType() {
-        return locationType;
-    }
-
-    public void setLocationType(String locationType) {
-        this.locationType = locationType;
-    }
-
-    public Viewport getViewport() {
-        return viewport;
-    }
-
-    public void setViewport(Viewport viewport) {
-        this.viewport = viewport;
-    }
-
-}
-
 public class Location {
 
     @SerializedName("results")
@@ -104,33 +66,6 @@ public class Location {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-}
-
-class Location_ {
-
-    @SerializedName("lat")
-    @Expose
-    private Double lat;
-    @SerializedName("lng")
-    @Expose
-    private Double lng;
-
-    public Double getLat() {
-        return lat;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public void setLng(Double lng) {
-        this.lng = lng;
     }
 
 }
