@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.util;
 import androidx.annotation.Nullable;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.models.Geocoder;
 import com.openclassrooms.realestatemanager.models.Location;
 import com.openclassrooms.realestatemanager.models.Result;
 
@@ -27,21 +28,19 @@ public class ApiCalls {
 
         LocationService locationService = LocationService.retrofit.create(LocationService.class);
 
-        Call<Result> call = locationService.getLocation(adress);
+        Call<Geocoder> call = locationService.getLocation(adress);
 
-        call.enqueue(new Callback<Result>() {
+        call.enqueue(new Callback<Geocoder>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
+            public void onResponse(Call<Geocoder> call, Response<Geocoder> response) {
                 if(callbacksWeakReference != null) {
-                    ArrayList<Result> results = new ArrayList<>();
-                    results.add(response.body());
-                    callbacksWeakReference.get().onResponse(results);
+                    callbacksWeakReference.get().onResponse(response.body().getResults());
                 }
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
-               if(callbacksWeakReference != null) callbacksWeakReference.get().onFailure();
+            public void onFailure(Call<Geocoder> call, Throwable t) {
+                if(callbacksWeakReference != null) callbacksWeakReference.get().onFailure();
             }
         });
     }

@@ -75,7 +75,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 mEstateItems.addAll(estateItems);
 
                 for(int i = 0; i<mEstateItems.size(); i++) {
-                    getAdress(mEstateItems.get(i).getEstateAdress());
+                    String address = mEstateItems.get(i).getEstateAdress()+mEstateItems.get(i).getEstateCity();
+                    getAdress(address);
                 }
             }
         });
@@ -123,22 +124,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     }
 
-    private void getAdress(String adress) {
-        String location = adress.replace(" ", "+");
-        ApiCalls.fetchLocations(this, location);
+    private void getAdress(String address) {
+        ApiCalls.fetchLocations(this, address);
     }
 
     private void setupMarkers(List<Result> locations) {
-        for(int i = 0; i<locations.size(); i++) {
-            double lat = locations.get(i).getGeometry().getLocation().getLat();
-            double lng = locations.get(i).getGeometry().getLocation().getLng();
+        if(locations != null && locations.isEmpty() == false) {
+            for(int i =0; i<locations.size(); i++) {
+                double lat = locations.get(i).getGeometry().getLocation().getLat();
+                double lng = locations.get(i).getGeometry().getLocation().getLng();
 
-            LatLng latLng = new LatLng(lat, lng);
-            mMap.addMarker(new MarkerOptions()
-            .position(latLng)
-            .title(mEstateItems.get(i).getEstateType()));
+                LatLng latLng = new LatLng(lat, lng);
+                mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(mEstateItems.get(i).getEstateType()));
+            }
         }
-
     }
 
     private void getDeviceLocation() {
