@@ -72,6 +72,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     bundle.putString("estateRoom", currentItem.getEstateRoom());
                     bundle.putString("estateSurface", currentItem.getEstateSurface());
                     bundle.putString("estateAdress", currentItem.getEstateAdress());
+                    bundle.putString("pictureUri", currentItem.getEstatePictureUri());
                     createFragment(view.getContext(), bundle);
 
                 } else {
@@ -83,6 +84,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     intent.putExtra("estateRoom", currentItem.getEstateRoom());
                     intent.putExtra("estateSurface", currentItem.getEstateSurface());
                     intent.putExtra("estateAdress", currentItem.getEstateAdress());
+                    intent.putExtra("estatePicture", currentItem.getEstatePictureUri());
 
                     view.getContext().startActivity(intent);
                 }

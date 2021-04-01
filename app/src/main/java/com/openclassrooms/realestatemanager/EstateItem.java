@@ -1,5 +1,8 @@
 package com.openclassrooms.realestatemanager;
 
+import android.net.Uri;
+import android.widget.ImageView;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -14,6 +17,7 @@ public class EstateItem {
     private String estateRoom;
     private String estateCity;
     private String estateAdress;
+    private String estatePictureUri;
 
     public EstateItem(String type, String price, String surface, String numberRoom, String city, String adress) {
         estateType = type;
@@ -36,6 +40,14 @@ public class EstateItem {
 
     public EstateItem() {
 
+    }
+
+    public String getEstatePictureUri() {
+        return estatePictureUri;
+    }
+
+    public void setEstatePictureUri(String estatePictureUri) {
+        this.estatePictureUri = estatePictureUri;
     }
 
     public long getId() {

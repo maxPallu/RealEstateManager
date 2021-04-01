@@ -12,8 +12,8 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.Toolbar
@@ -25,28 +25,39 @@
             app:popupTheme="@style/Theme.AppCompat.Light"
             android:elevation="4dp" />
 
-        <FrameLayout
-            android:id="@+id/frame_layout_main"
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:layout_weight="20">
+    </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                android:padding="4dp" />
+                android:orientation="vertical">
 
-        </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/frame_layout_main"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    tools:ignore="Suspicious0dp">
 
-        <FrameLayout
-            android:id="@+id/frame_layout_detail"
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:layout_weight="80" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical"
+                        android:padding="4dp" />
 
-    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/frame_layout_detail"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="80"
+                    tools:ignore="Suspicious0dp" />
+
+            </LinearLayout>
+
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/activity_main_nav_view"
