@@ -219,5 +219,19 @@
             app:layout_constraintStart_toEndOf="@+id/location"
             app:layout_constraintTop_toBottomOf="@+id/locationCity" />
 
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/map"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            map:cameraZoom="13"
+            map:mapType="normal"
+            map:liteMode="true"
+            map:layout_constraintTop_toBottomOf="@+id/locationAdress"
+            map:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
