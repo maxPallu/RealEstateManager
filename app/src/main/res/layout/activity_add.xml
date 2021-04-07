@@ -132,12 +132,22 @@
             android:layout_marginStart="35dp"
             android:text="Capture image" />
 
+        <Button
+            android:id="@+id/buttonGallery"
+            android:layout_width="189dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toEndOf="@+id/textPhotos"
+            app:layout_constraintTop_toBottomOf="@+id/buttonCamera"
+            android:layout_marginStart="35dp"
+            android:text="Select image" />
+
         <ImageView
             android:id="@+id/viewPhoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonCamera"
+            app:layout_constraintTop_toBottomOf="@+id/buttonGallery"
             android:layout_marginStart="35dp"
             android:layout_marginTop="25dp" />
 

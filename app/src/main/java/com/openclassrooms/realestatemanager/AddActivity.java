@@ -12,6 +12,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +43,12 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private String numberRoom;
     private TextInputEditText adress;
     private Button mTakePhoto;
+    private Button galleryPhoto;
     private ImageView viewPhoto;
 
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    private static final int PICK_IMAGE = 1;
 
     Uri image_uri;
 
@@ -66,6 +70,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         Button add = findViewById(R.id.addButton);
         mTakePhoto = findViewById(R.id.buttonCamera);
         viewPhoto = findViewById(R.id.viewPhoto);
+        galleryPhoto = findViewById(R.id.buttonGallery);
 
         price = findViewById(R.id.textPrice);
         surface = findViewById(R.id.textSurface);
@@ -96,6 +101,16 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 } else {
                     openCamera();
                 }
+            }
+        });
+
+        galleryPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery = new Intent();
+                gallery.setType("image/*");
+                gallery.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(gallery, "Select Picture"), PICK_IMAGE);
             }
         });
 
@@ -167,6 +182,14 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             viewPhoto.setImageURI(image_uri);
+        } else if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            image_uri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_uri);
+                viewPhoto.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
