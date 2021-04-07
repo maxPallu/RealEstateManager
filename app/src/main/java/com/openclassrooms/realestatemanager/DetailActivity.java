@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private String estateAdress;
 
     private GoogleMap map;
-    private Button back;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +59,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailCity = findViewById(R.id.locationCity);
         detailAdress = findViewById(R.id.locationAdress);
         detailPicture = (ImageView) findViewById(R.id.pictureView);
-
         back = findViewById(R.id.back);
-
-     //  back.setOnClickListener(new View.OnClickListener() {
-     //      @Override
-     //      public void onClick(View view) {
-     //          finish();
-     //      }
-     //  });
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.map, mapFragment).commit();
@@ -88,6 +81,13 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Uri pictureUri = Uri.parse(estateUri);
         detailPicture.setImageURI(pictureUri);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
@@ -112,7 +112,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                         .position(latLng)
                         .title(estateCity));
 
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
             }
         }
     }

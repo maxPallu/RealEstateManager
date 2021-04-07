@@ -25,7 +25,8 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".AddActivity" />
-        <activity android:name=".DetailActivity" />
+        <activity android:name=".DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
