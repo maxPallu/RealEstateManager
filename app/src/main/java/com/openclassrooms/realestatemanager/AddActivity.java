@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.Nullable;
@@ -9,7 +11,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -47,8 +53,11 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private ImageView viewPhoto;
 
     private static final int PERMISSION_CODE = 1000;
+    private static final int PERMISSION_PICK = 1003;
     private static final int IMAGE_CAPTURE_CODE = 1001;
-    private static final int PICK_IMAGE = 1;
+    private static final int PICK_IMAGE = 1002;
+
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
     Uri image_uri;
 
@@ -107,10 +116,17 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         galleryPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gallery = new Intent();
-                gallery.setType("image/*");
-                gallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(gallery, "Select Picture"), PICK_IMAGE);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+                            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                        requestPermissions(permission, PERMISSION_CODE);
+                    } else {
+                        pickImageFromGallery();
+                    }
+                } else {
+                    pickImageFromGallery();
+                }
             }
         });
 
@@ -163,27 +179,36 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
     }
 
+    private void pickImageFromGallery() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the gallery");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_CODE:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera();
+                    pickImageFromGallery();
                 } else {
                     Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
                 }
         }
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             viewPhoto.setImageURI(image_uri);
-        } else if(requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
-            image_uri = data.getData();
+        } else if(requestCode == RESULT_OK && resultCode == PICK_IMAGE) {
+            viewPhoto.setImageURI(data.getData());
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_uri);
                 viewPhoto.setImageBitmap(bitmap);
