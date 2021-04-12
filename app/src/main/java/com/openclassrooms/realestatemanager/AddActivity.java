@@ -47,17 +47,16 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private TextInputLayout surface;
     private TextInputEditText city;
     private String numberRoom;
+    private TextInputLayout description;
     private TextInputEditText adress;
     private Button mTakePhoto;
     private Button galleryPhoto;
     private ImageView viewPhoto;
 
     private static final int PERMISSION_CODE = 1000;
-    private static final int PERMISSION_PICK = 1003;
+    private static int selectType = 0;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     private static final int PICK_IMAGE = 1002;
-
-    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
     Uri image_uri;
 
@@ -80,6 +79,8 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         mTakePhoto = findViewById(R.id.buttonCamera);
         viewPhoto = findViewById(R.id.viewPhoto);
         galleryPhoto = findViewById(R.id.buttonGallery);
+
+        description = findViewById(R.id.textDescription);
 
         price = findViewById(R.id.textPrice);
         surface = findViewById(R.id.textSurface);
@@ -105,9 +106,11 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
                         requestPermissions(permission, PERMISSION_CODE);
                     } else {
+                        selectType = 1;
                         openCamera();
                     }
                 } else {
+                    selectType = 1;
                     openCamera();
                 }
             }
@@ -122,9 +125,11 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
                         requestPermissions(permission, PERMISSION_CODE);
                     } else {
+                        selectType = 2;
                         pickImageFromGallery();
                     }
                 } else {
+                    selectType = 2;
                     pickImageFromGallery();
                 }
             }
@@ -160,6 +165,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         surface.getEditText().getText().toString(), numberRoom, city.getText().toString(), adress.getText().toString());
 
                 item.setEstatePictureUri(image_uri.toString());
+                item.setEstateDescription(description.getEditText().getText().toString());
 
                 mApi.createEstate(item);
                 itemViewModel.createItem(item);
@@ -184,7 +190,9 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the gallery");
         image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
         startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE);
     }
@@ -194,8 +202,11 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         switch (requestCode) {
             case PERMISSION_CODE:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCamera();
-                    pickImageFromGallery();
+                    if(selectType == 1) {
+                        openCamera();
+                    } else if(selectType == 2) {
+                        pickImageFromGallery();
+                    }
                 } else {
                     Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
                 }
@@ -207,7 +218,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             viewPhoto.setImageURI(image_uri);
-        } else if(requestCode == RESULT_OK && resultCode == PICK_IMAGE) {
+        } else if(requestCode == RESULT_OK && selectType == 2) {
             viewPhoto.setImageURI(data.getData());
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_uri);

@@ -37,6 +37,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private TextView detailRoom;
     private TextView detailCity;
     private TextView detailAdress;
+    private TextView detailDescription;
 
     private ImageView detailPicture;
     private String estateUri;
@@ -45,6 +46,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private String estateRoom;
     private String estateCity;
     private String estateAdress;
+    private String estateDescription;
 
     private GoogleMap map;
     private ImageButton back;
@@ -59,6 +61,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailCity = findViewById(R.id.locationCity);
         detailAdress = findViewById(R.id.locationAdress);
         detailPicture = (ImageView) findViewById(R.id.pictureView);
+        detailDescription = findViewById(R.id.detailDescription);
         back = findViewById(R.id.back);
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
@@ -73,11 +76,13 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         estateCity = intent.getStringExtra("estateCity");
         estateAdress = intent.getStringExtra("estateAdress");
         estateUri = intent.getStringExtra("estatePicture");
+        estateDescription = intent.getStringExtra("estateDescription");
 
         detailSurface.setText(estateSurface + " sq m");
         detailRoom.setText(estateRoom);
         detailCity.setText(estateCity);
         detailAdress.setText(estateAdress);
+        detailDescription.setText(estateDescription);
 
         Uri pictureUri = Uri.parse(estateUri);
         detailPicture.setImageURI(pictureUri);

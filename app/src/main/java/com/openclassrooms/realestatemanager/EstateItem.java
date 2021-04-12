@@ -18,6 +18,7 @@ public class EstateItem {
     private String estateCity;
     private String estateAdress;
     private String estatePictureUri;
+    private String estateDescription;
 
     public EstateItem(String type, String price, String surface, String numberRoom, String city, String adress) {
         estateType = type;
@@ -40,6 +41,14 @@ public class EstateItem {
 
     public EstateItem() {
 
+    }
+
+    public String getEstateDescription() {
+        return estateDescription;
+    }
+
+    public void setEstateDescription(String estateDescription) {
+        this.estateDescription = estateDescription;
     }
 
     public String getEstatePictureUri() {
