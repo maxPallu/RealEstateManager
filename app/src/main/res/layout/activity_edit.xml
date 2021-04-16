@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AddActivity">
+
+        <TextView
+            android:id="@+id/editType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:text="Estate type : "
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/editSpinnerType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="23dp"
+            app:layout_constraintStart_toEndOf="@+id/editType"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/editPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:text="Estate Price : "
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editType" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextPrice"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintStart_toEndOf="@+id/editPrice"
+            app:layout_constraintTop_toBottomOf="@+id/editSpinnerType">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint="Price"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/editSurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:text="Surface : "
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPrice" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextSurface"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-5dp"
+            app:layout_constraintStart_toEndOf="@+id/editPrice"
+            app:layout_constraintTop_toBottomOf="@+id/editTextPrice">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="15"
+                android:hint="Surface"
+                android:inputType="number" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/editRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:text="Number of Rooms : "
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editSurface" />
+
+        <Spinner
+            android:id="@+id/editSpinnerRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toEndOf="@+id/editRoom"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSurface" />
+
+        <TextView
+            android:id="@+id/editTextPhotos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select photos : "
+            app:layout_constraintTop_toBottomOf="@+id/editRoom"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:textSize="15dp"/>
+
+        <Button
+            android:id="@+id/editButtonCamera"
+            android:layout_width="189dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toEndOf="@+id/editTextPhotos"
+            app:layout_constraintTop_toBottomOf="@+id/editSpinnerRoom"
+            android:layout_marginStart="35dp"
+            android:text="Capture image" />
+
+        <Button
+            android:id="@+id/editButtonGallery"
+            android:layout_width="189dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintStart_toEndOf="@+id/editTextPhotos"
+            app:layout_constraintTop_toBottomOf="@+id/editButtonCamera"
+            android:layout_marginStart="35dp"
+            android:text="Select image" />
+
+        <ImageView
+            android:id="@+id/editViewPhoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editButtonGallery"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="25dp" />
+
+        <TextView
+            android:id="@+id/editDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:text="Description : "
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editViewPhoto" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextDescription"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="384dp"
+            android:layout_height="112dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDescription">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="348dp"
+                android:layout_height="145dp"
+                android:hint="Description"
+                android:inputType="none" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/editAdress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="45dp"
+            android:text="Adress : "
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+
+        <TextView
+            android:id="@+id/editCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/editAdress"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="City : "
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editCityText"
+            android:layout_width="337dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="3dp"
+            android:hint="City"
+            app:layout_constraintStart_toEndOf="@+id/editCity"
+            app:layout_constraintTop_toBottomOf="@+id/editAdress">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:ems="15"
+                android:hint="City"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/editAdressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/editCity"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Adress : "
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"/>
+
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/editCityText"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="85dp"
+            android:layout_marginStart="155dp"
+            android:text="Edit"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextAdress"
+            android:layout_width="323dp"
+            android:layout_height="83dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:hint="Adress"
+            app:layout_constraintStart_toEndOf="@+id/editAdress"
+            app:layout_constraintTop_toBottomOf="@+id/editCityText">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="282dp"
+                android:layout_height="45dp"
+                android:ems="15"
+                android:hint="Adress"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -190,10 +190,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the gallery");
         image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE);
     }
 
@@ -216,16 +213,11 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && selectType == 1) {
             viewPhoto.setImageURI(image_uri);
-        } else if(requestCode == RESULT_OK && selectType == 2) {
+        } else if(resultCode == RESULT_OK && selectType == 2) {
+            image_uri = data.getData();
             viewPhoto.setImageURI(data.getData());
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_uri);
-                viewPhoto.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 

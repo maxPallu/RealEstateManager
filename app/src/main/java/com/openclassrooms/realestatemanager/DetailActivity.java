@@ -50,6 +50,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private GoogleMap map;
     private ImageButton back;
+    private ImageButton edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailPicture = (ImageView) findViewById(R.id.pictureView);
         detailDescription = findViewById(R.id.detailDescription);
         back = findViewById(R.id.back);
+        edit = findViewById(R.id.editButton);
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.map, mapFragment).commit();
@@ -91,6 +93,17 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
+                intent.putExtra("estateCity", estateCity);
+                intent.putExtra("estateDescription", estateDescription);
+                intent.putExtra("estateAdress", estateAdress);
+                startActivity(intent);
             }
         });
     }

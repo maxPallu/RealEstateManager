@@ -16,14 +16,16 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/screen_background_light_transparent"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
+            app:elevation="0dp"
             android:backgroundTint="@android:color/transparent">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimary"
-            app:layout_scrollFlags="scroll">
+            android:layout_height="wrap_content"
+            app:contentScrim="@android:color/transparent"
+            app:layout_scrollFlags="snap">
 
             <ImageButton
                 android:id="@+id/back"
