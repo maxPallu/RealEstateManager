@@ -78,6 +78,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                 } else {
                     Intent intent = new Intent(view.getContext(), DetailActivity.class);
 
+                    intent.putExtra("estatePrice", currentItem.getEstatePrice());
                     intent.putExtra("estateType", currentItem.getEstateType());
                     intent.putExtra("estateCity", currentItem.getEstateCity());
                     intent.putExtra("estatePrice", currentItem.getEstatePrice());

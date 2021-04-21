@@ -73,6 +73,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Intent intent = getIntent();
 
+        String estatePrice = intent.getStringExtra("estatePrice");
         estateSurface = intent.getStringExtra("estateSurface");
         estateRoom = intent.getStringExtra("estateRoom");
         estateCity = intent.getStringExtra("estateCity");
@@ -103,6 +104,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 intent.putExtra("estateCity", estateCity);
                 intent.putExtra("estateDescription", estateDescription);
                 intent.putExtra("estateAdress", estateAdress);
+                intent.putExtra("estateRoom", estateRoom);
+                intent.putExtra("estateSurface", estateSurface);
+                intent.putExtra("estatePrice", estatePrice);
                 startActivity(intent);
             }
         });

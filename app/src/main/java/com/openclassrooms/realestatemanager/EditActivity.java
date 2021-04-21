@@ -31,9 +31,11 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
     private TextInputLayout surface;
     private TextInputLayout city;
     private String numberRoom;
+    private String numberSurface;
     private TextInputLayout description;
     private TextInputLayout adress;
     private ImageView viewPhoto;
+    private Spinner typeSpinner;
 
     private EstateAPI mApi;
     private ItemViewModel itemViewModel;
@@ -48,7 +50,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mApi = DI.getEstateApiService();
 
-        Spinner typeSpinner = findViewById(R.id.editSpinnerType);
+        typeSpinner = findViewById(R.id.editSpinnerType);
         Spinner roomSpinner = findViewById(R.id.editSpinnerRoom);
         Button edit = findViewById(R.id.editButton);
 
@@ -62,10 +64,15 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
         String getAdress = intent.getStringExtra("estateAdress");
         String getCity = intent.getStringExtra("estateCity");
         String getDescription = intent.getStringExtra("estateDescription");
+        numberRoom = intent.getStringExtra("estateRoom");
+        numberSurface = intent.getStringExtra("estateSurface");
+        String getPrice = intent.getStringExtra("estatePrice");
 
+        price.getEditText().setText(getPrice);
         adress.getEditText().setText(getAdress);
         city.getEditText().setText(getCity);
         description.getEditText().setText(getDescription);
+        surface.getEditText().setText(numberSurface);
 
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
@@ -89,7 +96,8 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
         roomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                numberRoom = adapterView.getItemAtPosition(i).toString();
+                int number = Integer.parseInt(numberRoom);
+                roomSpinner.setSelection(number);
             }
 
             @Override
@@ -108,8 +116,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String typeSelected = adapterView.getItemAtPosition(i).toString();
-        type = typeSelected;
+        typeSpinner.setSelection(i);
     }
 
     @Override
