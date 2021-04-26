@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +50,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private String estateAdress;
     private String estateDescription;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private GoogleMap map;
     private ImageButton back;
     private ImageButton edit;
@@ -87,8 +93,15 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailAdress.setText(estateAdress);
         detailDescription.setText(estateDescription);
 
-        Uri pictureUri = Uri.parse(estateUri);
-        detailPicture.setImageURI(pictureUri);
+        //Uri pictureUri = Uri.parse(estateUri);
+        // detailPicture.setImageURI(pictureUri);
+
+        mRecyclerView = findViewById(R.id.photoRecyclerView);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new ImageAdapter(getApplicationContext(), estateUri);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
