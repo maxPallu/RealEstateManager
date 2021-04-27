@@ -33,6 +33,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public ImageAdapter(Context context, String imageUri) {
         getContext = context;
         uri = imageUri;
+        ImageItem image = new ImageItem(imageUri);
+        mImages.add(image);
     }
 
     @NonNull
@@ -45,6 +47,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+        ImageItem imageItem = new ImageItem(uri);
+        mImages.add(imageItem);
         holder.imageView.setImageURI(Uri.parse(uri));
     }
 
