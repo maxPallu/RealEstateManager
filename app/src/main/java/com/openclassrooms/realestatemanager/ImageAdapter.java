@@ -47,8 +47,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        ImageItem imageItem = new ImageItem(uri);
-        mImages.add(imageItem);
         holder.imageView.setImageURI(Uri.parse(uri));
     }
 

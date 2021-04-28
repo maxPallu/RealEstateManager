@@ -97,7 +97,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         // detailPicture.setImageURI(pictureUri);
 
         mRecyclerView = findViewById(R.id.photoRecyclerView);
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new ImageAdapter(getApplicationContext(), estateUri);
 
         mRecyclerView.setLayoutManager(mLayoutManager);

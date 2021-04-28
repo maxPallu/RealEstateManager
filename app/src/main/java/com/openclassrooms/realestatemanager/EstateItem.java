@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager;
 
+import android.content.ContentValues;
 import android.net.Uri;
 import android.widget.ImageView;
 
@@ -37,6 +38,15 @@ public class EstateItem {
         estateRoom = numberRoom;
         estateCity = city;
         estateAdress = adress;
+    }
+
+    public static EstateItem fromContentValues(ContentValues values) {
+        final EstateItem item = new EstateItem();
+        if (values.containsKey("estateType")) item.setEstateType(values.getAsString("estateType"));
+        if (values.containsKey("estateCity")) item.setEstateCity(values.getAsString("estateCity"));
+        if (values.containsKey("estatePrice")) item.setEstatePrice(values.getAsString("estatePrice"));
+        if (values.containsKey("estateAdress")) item.setEstateAdress(values.getAsString("estateAdress"));
+        return item;
     }
 
     public EstateItem() {

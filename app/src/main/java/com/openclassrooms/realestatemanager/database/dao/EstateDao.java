@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.database.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -27,5 +29,8 @@ public interface EstateDao {
 
     @Query("DELETE FROM EstateItem WHERE id = :itemId")
     int deleteItem(long itemId);
+
+    @Query("SELECT * FROM EstateItem WHERE id = :estateId")
+    Cursor getItemsWithCursors(long estateId);
 
 }
