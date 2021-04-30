@@ -87,6 +87,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     intent.putExtra("estateAdress", currentItem.getEstateAdress());
                     intent.putExtra("estatePicture", currentItem.getEstatePictureUri());
                     intent.putExtra("estateDescription", currentItem.getEstateDescription());
+                    intent.putExtra("estateId", position);
 
                     view.getContext().startActivity(intent);
                 }

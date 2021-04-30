@@ -36,6 +36,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
     private TextInputLayout adress;
     private ImageView viewPhoto;
     private Spinner typeSpinner;
+    private Button edit;
 
     private EstateAPI mApi;
     private ItemViewModel itemViewModel;
@@ -52,7 +53,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
 
         typeSpinner = findViewById(R.id.editSpinnerType);
         Spinner roomSpinner = findViewById(R.id.editSpinnerRoom);
-        Button edit = findViewById(R.id.editButton);
+        edit = findViewById(R.id.editButton);
 
         description = findViewById(R.id.editTextDescription);
         price = findViewById(R.id.editTextPrice);
@@ -67,6 +68,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
         numberRoom = intent.getStringExtra("estateRoom");
         numberSurface = intent.getStringExtra("estateSurface");
         String getPrice = intent.getStringExtra("estatePrice");
+        int position = intent.getIntExtra("estateId", 0);
 
         price.getEditText().setText(getPrice);
         adress.getEditText().setText(getAdress);
@@ -109,7 +111,16 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                EstateItem item = new EstateItem(type, price.getEditText().getText().toString(),
+                        surface.getEditText().getText().toString(), numberRoom, city.getEditText().toString(), adress.getEditText().toString());
+
+                //item.setEstatePictureUri(image_uri.toString());
+                item.setEstateDescription(description.getEditText().getText().toString());
+
+                mApi.editEstate(item, getApplicationContext());
+                itemViewModel.updateItem(item);
+
+                finish();
             }
         });
     }
