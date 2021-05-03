@@ -11,6 +11,6 @@ public interface EstateAPI {
     List<EstateItem> getEstates();
     void createEstate(EstateItem item);
     void deleteEstate(EstateItem item);
-    void editEstate(EstateItem item, Context context);
+    void editEstate(EstateItem item);
 
 }

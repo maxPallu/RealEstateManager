@@ -117,7 +117,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
                 //item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());
 
-                mApi.editEstate(item, getApplicationContext());
+                mApi.editEstate(item);
                 itemViewModel.updateItem(item);
 
                 finish();

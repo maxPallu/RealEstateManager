@@ -1,33 +1,25 @@
 package com.openclassrooms.realestatemanager.service;
 
-import android.app.Activity;
-import android.content.Context;
-
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
-import com.openclassrooms.realestatemanager.DI.DI;
 import com.openclassrooms.realestatemanager.EstateItem;
-import com.openclassrooms.realestatemanager.Injection.Injection;
-import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.ItemViewModel;
-import com.openclassrooms.realestatemanager.database.Database;
+import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-
-import javax.security.auth.callback.Callback;
-
-import kotlinx.coroutines.Dispatchers;
+import java.util.concurrent.Executor;
 
 public class EstateAPIService implements EstateAPI {
 
     private List<EstateItem> estates = new ArrayList<>();
+    private final ItemDataRepository itemDataSource;
+    private final Executor executor;
     private ItemViewModel itemViewModel;
-    private Database database;
+
+    public EstateAPIService(ItemDataRepository itemDataSource, Executor executor) {
+        itemViewModel = new ItemViewModel(itemDataSource, executor);
+        this.itemDataSource = itemDataSource;
+        this.executor = executor;
+    }
 
     @Override
     public List<EstateItem> getEstates() {
@@ -45,12 +37,9 @@ public class EstateAPIService implements EstateAPI {
     }
 
     @Override
-    public void editEstate(EstateItem item, Context context) {
-        database = Database.getInstance(context);
-        this.database.estateDao().updateItem(item);
-    }
-
-
-    public EstateAPIService() {
+    public void editEstate(EstateItem item) {
+        executor.execute(() -> {
+            itemViewModel.updateItem(item);
+        });
     }
 }
