@@ -117,8 +117,17 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
                 //item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());
 
-                mApi.editEstate(item);
-                itemViewModel.updateItem(item);
+                Bundle edit = new Bundle();
+                edit.putString("estateType", price.getEditText().toString());
+                edit.putString("estatePrice", price.getEditText().toString());
+                edit.putString("estateSurface", surface.getEditText().toString());
+                edit.putString("estateRoom", numberRoom);
+                edit.putString("estateCity", city.getEditText().toString());
+                edit.putString("estateAdress", adress.getEditText().toString());
+                edit.putString("estateDescription", description.getEditText().toString());
+
+                mApi.editEstate(item, getApplicationContext());
+                itemViewModel.updateItem(item, getApplicationContext());
 
                 finish();
             }

@@ -127,6 +127,23 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Bundle bundle = new Bundle();
+
+        if(bundle != null) {
+            String estatePrice = bundle.getString("estatePrice");
+            int estateId = bundle.getInt("estateId");
+            estateSurface = bundle.getString("estateSurface");
+            estateRoom = bundle.getString("estateRoom");
+            estateCity = bundle.getString("estateCity");
+            estateAdress = bundle.getString("estateAdress");
+            estateUri = bundle.getString("estatePicture");
+            estateDescription = bundle.getString("estateDescription");
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

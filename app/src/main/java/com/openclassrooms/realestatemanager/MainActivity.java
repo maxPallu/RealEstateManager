@@ -9,12 +9,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.openclassrooms.realestatemanager.DI.DI;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 
@@ -150,6 +147,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.menu_map:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MapFragment()).commit();
+                break;
+            case R.id.loan_menu:
+                Intent intent = new Intent(this, MortgageActivity.class);
+                startActivity(intent);
                 break;
         }
 

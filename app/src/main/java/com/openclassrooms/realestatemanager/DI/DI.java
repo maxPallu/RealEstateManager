@@ -5,11 +5,12 @@ import com.openclassrooms.realestatemanager.service.EstateAPI;
 import com.openclassrooms.realestatemanager.service.EstateAPIService;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class DI {
 
     private static ItemDataRepository itemDataSource;
-    private static Executor executor;
+    private static Executor executor = Executors.newSingleThreadExecutor();
 
     private static EstateAPI service = new EstateAPIService(itemDataSource, executor);
 

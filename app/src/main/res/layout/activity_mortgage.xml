@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MortgageActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        app:elevation="0dp"
+        android:backgroundTint="@android:color/transparent">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@android:color/transparent"
+            app:layout_scrollFlags="snap">
+
+            <ImageButton
+                android:id="@+id/finish"
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:background="@android:drawable/screen_background_light_transparent"
+                android:backgroundTint="@android:color/white"
+                app:srcCompat="?attr/actionModeCloseDrawable" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/mortgageCalculator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="10dp"
+        android:text="Mortgage Calculator"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar" />
+
+    <TextView
+        android:id="@+id/mortgagePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home Price : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mortgageCalculator"
+        android:layout_marginTop="55dp"
+        android:layout_marginStart="35dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/inputMortgagePrice"
+        android:layout_width="246dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="28dp"
+        android:hint="House Price"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/mortgagePrice"
+        app:layout_constraintTop_toBottomOf="@+id/mortgageCalculator" />
+
+    <TextView
+        android:id="@+id/mortgageContribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Financial Contribution : "
+        app:layout_constraintTop_toBottomOf="@+id/mortgagePrice"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="35dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/inputContribution"
+        android:layout_width="208dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:hint="Contribution"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/mortgageContribution"
+        app:layout_constraintTop_toBottomOf="@+id/inputMortgagePrice" />
+
+    <TextView
+        android:id="@+id/mortgageLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Length (In months) : "
+        app:layout_constraintTop_toBottomOf="@+id/mortgageContribution"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="35dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/inputLength"
+        android:layout_width="218dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
+        android:hint="Length"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/mortgageLength"
+        app:layout_constraintTop_toBottomOf="@+id/inputContribution" />
+
+    <TextView
+        android:id="@+id/mortgageRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Interest Rate : "
+        app:layout_constraintTop_toBottomOf="@+id/mortgageLength"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="35dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/inputRate"
+        android:layout_width="236dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="8dp"
+        android:hint="Rate"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/mortgageRate"
+        app:layout_constraintTop_toBottomOf="@+id/inputLength" />
+
+    <Button
+        android:id="@+id/mortgageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="65dp"
+        android:text="Calculate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mortgageRate" />
+
+    <TextView
+        android:id="@+id/mortgageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text=""
+        app:layout_constraintTop_toBottomOf="@+id/mortgageButton"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="65dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

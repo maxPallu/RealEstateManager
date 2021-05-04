@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.service;
 
+import android.content.Context;
+
 import com.openclassrooms.realestatemanager.EstateItem;
 import com.openclassrooms.realestatemanager.ItemViewModel;
 import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
@@ -37,9 +39,9 @@ public class EstateAPIService implements EstateAPI {
     }
 
     @Override
-    public void editEstate(EstateItem item) {
+    public void editEstate(EstateItem item, Context context) {
         executor.execute(() -> {
-            itemViewModel.updateItem(item);
+            itemViewModel.updateItem(item, context);
         });
     }
 }

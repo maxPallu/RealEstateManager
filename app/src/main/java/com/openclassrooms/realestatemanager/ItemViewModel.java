@@ -1,9 +1,14 @@
 package com.openclassrooms.realestatemanager;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.openclassrooms.realestatemanager.Injection.Injection;
+import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
 
 import java.util.List;
@@ -11,7 +16,7 @@ import java.util.concurrent.Executor;
 
 public class ItemViewModel extends ViewModel {
 
-    private final ItemDataRepository itemDataSource;
+    private ItemDataRepository itemDataSource;
     private final Executor executor;
 
     @Nullable
@@ -43,7 +48,8 @@ public class ItemViewModel extends ViewModel {
         });
     }
 
-    public void updateItem(EstateItem item) {
+    public void updateItem(EstateItem item, Context context) {
+        this.itemDataSource = Injection.provideItemDataSource(context);
         executor.execute(() -> {
             itemDataSource.updateItem(item);
         });
