@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.models.Result;
 import com.openclassrooms.realestatemanager.util.ApiCalls;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback, ApiCalls.Callbacks {
@@ -49,6 +50,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private String estateCity;
     private String estateAdress;
     private String estateDescription;
+
+    private ItemViewModel itemViewModel;
+
+    private int estateId;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -80,7 +85,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         Intent intent = getIntent();
 
         String estatePrice = intent.getStringExtra("estatePrice");
-        int estateId = intent.getIntExtra("estateId", 0);
+        estateId = intent.getIntExtra("estateId", 0);
         estateSurface = intent.getStringExtra("estateSurface");
         estateRoom = intent.getStringExtra("estateRoom");
         estateCity = intent.getStringExtra("estateCity");
@@ -131,18 +136,26 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onResume() {
         super.onResume();
 
-        Bundle bundle = new Bundle();
+        ArrayList<EstateItem> mEstates = new ArrayList<>();
 
-        if(bundle != null) {
-            String estatePrice = bundle.getString("estatePrice");
-            int estateId = bundle.getInt("estateId");
-            estateSurface = bundle.getString("estateSurface");
-            estateRoom = bundle.getString("estateRoom");
-            estateCity = bundle.getString("estateCity");
-            estateAdress = bundle.getString("estateAdress");
-            estateUri = bundle.getString("estatePicture");
-            estateDescription = bundle.getString("estateDescription");
-        }
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+        this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
+            @Override
+            public void onChanged(List<EstateItem> estateItems) {
+                mEstates.clear();
+                mEstates.addAll(estateItems);
+
+                Intent intent = getIntent();
+                estateId = intent.getIntExtra("estateId", 0);
+
+                detailSurface.setText(mEstates.get(estateId).getEstateSurface() + " sq m");
+                detailRoom.setText(mEstates.get(estateId).getEstateRoom());
+                detailCity.setText(mEstates.get(estateId).getEstateCity());
+                detailAdress.setText(mEstates.get(estateId).getEstateAdress());
+                detailDescription.setText(mEstates.get(estateId).getEstateDescription());
+            }
+        });
     }
 
     @Override
