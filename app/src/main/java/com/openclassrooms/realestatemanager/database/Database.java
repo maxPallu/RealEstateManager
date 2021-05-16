@@ -42,7 +42,7 @@ public abstract class Database extends RoomDatabase {
                 super.onCreate(db);
 
                 ContentValues contentValues = new ContentValues();
-                contentValues.put("id", 0);
+                contentValues.put("estateId", 0);
                 contentValues.put("estateType", "House");
                 contentValues.put("estatePrice", "250000");
                 contentValues.put("estateCity", "Los Angeles");

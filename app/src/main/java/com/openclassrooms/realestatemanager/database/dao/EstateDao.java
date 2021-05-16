@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface EstateDao {
 
-    @Query("SELECT * FROM EstateItem WHERE id = :estateId")
+    @Query("SELECT * FROM EstateItem WHERE estateId = :estateId")
     LiveData<List<EstateItem>> getItems(long estateId);
 
     @Query("SELECT * FROM EstateItem")
@@ -27,10 +27,10 @@ public interface EstateDao {
     @Update
     int updateItem(EstateItem item);
 
-    @Query("DELETE FROM EstateItem WHERE id = :itemId")
+    @Query("DELETE FROM EstateItem WHERE estateId = :itemId")
     int deleteItem(long itemId);
 
-    @Query("SELECT * FROM EstateItem WHERE id = :estateId")
+    @Query("SELECT * FROM EstateItem WHERE estateId = :estateId")
     Cursor getItemsWithCursors(long estateId);
 
 }

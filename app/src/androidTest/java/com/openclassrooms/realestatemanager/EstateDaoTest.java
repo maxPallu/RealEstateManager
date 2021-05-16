@@ -52,7 +52,7 @@ public class EstateDaoTest {
     public void insertAndDeleteItem() throws InterruptedException {
         this.database.estateDao().insertItem(itemDemo);
         EstateItem estateItem = LiveDataTestUtil.getValue(this.database.estateDao().getItems(ESTATE_ID)).get(0);
-        this.database.estateDao().deleteItem(estateItem.getId());
+        this.database.estateDao().deleteItem(estateItem.getEstateId());
 
         List<EstateItem> items = LiveDataTestUtil.getValue(this.database.estateDao().getItems(ESTATE_ID));
         assertTrue(items.isEmpty());

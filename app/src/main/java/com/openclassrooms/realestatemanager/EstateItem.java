@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 public class EstateItem {
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long estateId;
     private String estateType;
     private String estatePrice;
     private String estateSurface;
@@ -30,8 +30,8 @@ public class EstateItem {
         estateAdress = adress;
     }
 
-    public EstateItem(int id, String type, String price, String surface, String numberRoom, String city, String adress) {
-        id = id;
+    public EstateItem(long id, String type, String price, String surface, String numberRoom, String city, String adress) {
+        estateId = id;
         estateType = type;
         estatePrice = price;
         estateSurface = surface;
@@ -69,12 +69,12 @@ public class EstateItem {
         this.estatePictureUri = estatePictureUri;
     }
 
-    public long getId() {
-        return id;
+    public long getEstateId() {
+        return estateId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setEstateId(long id) {
+        this.estateId = id;
     }
 
     public String getEstateType() {
