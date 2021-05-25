@@ -1,21 +1,28 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.sqlite.db.SimpleSQLiteQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
+
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DetailFragment detailFragment;
     private ItemViewModel itemViewModel;
     private DrawerLayout drawer;
+    private ItemRawDao itemRawDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+
+        searchItems();
     }
 
     @Override
@@ -93,11 +103,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         final MenuItem addItem = menu.findItem(R.id.menuAdd);
+        final MenuItem searchItem = menu.findItem(R.id.menuSearch);
 
         addItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Intent intent = new Intent(mContext, AddActivity.class);
+                startActivity(intent);
+
+                return false;
+            }
+        });
+
+        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(intent);
 
                 return false;
@@ -137,6 +158,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void searchItems() {
+        String getMinSurface;
+        String getMaxSurface;
+        String getMinPrice;
+        String getMaxPrice;
+
+      // int minSurface = Integer.parseInt(getMinSurface);
+      // int maxSurface = Integer.parseInt(getMaxSurface);
+      // int minPrice = Integer.parseInt(getMinPrice);
+      // int maxPrice = Integer.parseInt(getMaxPrice);
+
+       // SimpleSQLiteQuery query = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estateSurface BETWEEN "+minSurface+" AND " +maxSurface+ " WHERE estatePrice BETWEEN "+minPrice+" AND " +maxPrice);
+       // LiveData<List<EstateItem>> items = itemRawDao.getItems(query);
     }
 
     @Override

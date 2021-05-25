@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
         public TextView estateCity;
         public TextView estatePrice;
         public TextView estateSurface;
+        private Context context;
 
         public EstateViewHolder(View itemView) {
             super(itemView);
@@ -35,6 +39,8 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
             estateType = itemView.findViewById(R.id.estateType);
             estateCity = itemView.findViewById(R.id.estateCity);
             estatePrice = itemView.findViewById(R.id.estatePrice);
+
+            context = itemView.getContext();
         }
     }
 
@@ -57,6 +63,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
         holder.estateType.setText(currentItem.getEstateType());
         holder.estateCity.setText(currentItem.getEstateCity());
         holder.estatePrice.setText("$ "+currentItem.getEstatePrice());
+        Glide.with(holder.context).load(currentItem.getEstatePictureUri()).into(holder.estateImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

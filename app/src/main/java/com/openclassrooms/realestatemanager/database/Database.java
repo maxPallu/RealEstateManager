@@ -46,6 +46,7 @@ public abstract class Database extends RoomDatabase {
                 contentValues.put("estateType", "House");
                 contentValues.put("estatePrice", "250000");
                 contentValues.put("estateCity", "Los Angeles");
+                contentValues.put("estatePictureUri", "https://thumbs.dreamstime.com/b/berlin-headquarters-deutsche-bahn-potsdamer-platz-56075878.jpg");
 
                 db.insert("EstateItem", OnConflictStrategy.IGNORE, contentValues);
             }

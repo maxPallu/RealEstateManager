@@ -222,16 +222,6 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"/>
 
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/cityText"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="85dp"
-            android:layout_marginStart="155dp"
-            android:text="Add"/>
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textAdress"
             android:layout_width="309dp"
@@ -241,6 +231,26 @@
             app:layout_constraintStart_toEndOf="@+id/adress"
             app:layout_constraintTop_toBottomOf="@+id/cityText"
             android:hint="Adress"/>
+
+        <TextView
+            android:id="@+id/textSale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textAdress"
+            android:text="Sale Date : "
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"/>
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/textSale"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="85dp"
+            android:layout_marginStart="155dp"
+            android:text="Add"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

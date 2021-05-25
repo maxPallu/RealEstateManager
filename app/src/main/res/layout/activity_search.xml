@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="false">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/searchMinimumPriceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum price : "
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="15dp"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputMinPrice"
+                android:layout_width="134dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchMinimumPriceText"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/searchMaxPriceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximum price : "
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/searchMinimumPriceText"
+                android:layout_marginStart="125dp"
+                android:layout_marginTop="25dp"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputMaxPrice"
+                android:layout_width="134dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="85dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintStart_toEndOf="@id/inputMinPrice"
+                app:layout_constraintTop_toBottomOf="@id/searchMaxPriceText"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/searchMinimumRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum number of rooms : "
+                app:layout_constraintTop_toBottomOf="@id/inputMinPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="35dp"/>
+
+            <TextView
+                android:id="@+id/searchMaxRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximum number of rooms : "
+                app:layout_constraintTop_toBottomOf="@id/inputMaxPrice"
+                app:layout_constraintStart_toEndOf="@id/searchMinimumRoom"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="35dp"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/minNumberRoom"
+                android:layout_width="134dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchMinimumRoom"
+                android:inputType="number" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maxNumberRoom"
+                android:layout_width="134dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="85dp"
+                app:layout_constraintStart_toEndOf="@id/minNumberRoom"
+                app:layout_constraintTop_toBottomOf="@+id/searchMaxRoom"
+                android:layout_marginTop="25dp"/>
+
+            <TextView
+                android:id="@+id/searchMinSurface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum surface : "
+                app:layout_constraintTop_toBottomOf="@id/minNumberRoom"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="35dp"/>
+
+            <TextView
+                android:id="@+id/searchMaxSurface"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximum surface : "
+                app:layout_constraintTop_toBottomOf="@id/maxNumberRoom"
+                app:layout_constraintStart_toEndOf="@id/searchMinimumRoom"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="35dp"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputMinSurface"
+                android:layout_width="134dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/searchMinSurface"
+                android:inputType="number" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputMaxSurface"
+                android:layout_width="134dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="85dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintStart_toEndOf="@id/inputMinSurface"
+                app:layout_constraintTop_toBottomOf="@id/searchMaxSurface"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/searchMinDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum sale date : "
+                app:layout_constraintTop_toBottomOf="@id/inputMinSurface"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="35dp"/>
+
+            <TextView
+                android:id="@+id/searchMaxDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximum sale date : "
+                app:layout_constraintTop_toBottomOf="@id/inputMaxSurface"
+                app:layout_constraintStart_toEndOf="@id/searchMinimumRoom"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="35dp"/>
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/searchMinDate"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="75dp"
+                android:layout_marginStart="160dp"
+                android:text="Search"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
