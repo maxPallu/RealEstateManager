@@ -35,13 +35,13 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputMinPrice"
-                android:layout_width="134dp"
-                android:layout_height="20dp"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="25dp"
+                android:inputType="number"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/searchMinimumPriceText"
-                android:inputType="number" />
+                app:layout_constraintTop_toBottomOf="@id/searchMinimumPriceText" />
 
             <TextView
                 android:id="@+id/searchMaxPriceText"
@@ -55,8 +55,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputMaxPrice"
-                android:layout_width="134dp"
-                android:layout_height="20dp"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
                 android:layout_marginStart="85dp"
                 android:layout_marginTop="25dp"
                 app:layout_constraintStart_toEndOf="@id/inputMinPrice"
@@ -85,8 +85,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/minNumberRoom"
-                android:layout_width="134dp"
-                android:layout_height="20dp"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="25dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,8 +95,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/maxNumberRoom"
-                android:layout_width="134dp"
-                android:layout_height="20dp"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
                 android:layout_marginStart="85dp"
                 app:layout_constraintStart_toEndOf="@id/minNumberRoom"
                 app:layout_constraintTop_toBottomOf="@+id/searchMaxRoom"
@@ -124,8 +124,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputMinSurface"
-                android:layout_width="134dp"
-                android:layout_height="20dp"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="25dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -134,8 +134,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/inputMaxSurface"
-                android:layout_width="134dp"
-                android:layout_height="20dp"
+                android:layout_width="135dp"
+                android:layout_height="44dp"
                 android:layout_marginStart="85dp"
                 android:layout_marginTop="25dp"
                 app:layout_constraintStart_toEndOf="@id/inputMinSurface"

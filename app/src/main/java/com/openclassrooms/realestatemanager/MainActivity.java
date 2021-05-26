@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ItemViewModel itemViewModel;
     private DrawerLayout drawer;
     private ItemRawDao itemRawDao;
+    private boolean search = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
 
-        searchItems();
+        if(search == true) {
+            searchItems();
+        }
     }
 
     @Override
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Intent intent = new Intent(mContext, AddActivity.class);
                 startActivity(intent);
+                search = false;
 
                 return false;
             }
@@ -120,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(intent);
+                search = true;
 
                 return false;
             }
@@ -161,18 +166,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void searchItems() {
-        String getMinSurface;
-        String getMaxSurface;
-        String getMinPrice;
-        String getMaxPrice;
+        Intent intent = getIntent();
 
-      // int minSurface = Integer.parseInt(getMinSurface);
-      // int maxSurface = Integer.parseInt(getMaxSurface);
-      // int minPrice = Integer.parseInt(getMinPrice);
-      // int maxPrice = Integer.parseInt(getMaxPrice);
+        if(intent != null) {
+            Bundle data = intent.getExtras();
 
-       // SimpleSQLiteQuery query = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estateSurface BETWEEN "+minSurface+" AND " +maxSurface+ " WHERE estatePrice BETWEEN "+minPrice+" AND " +maxPrice);
-       // LiveData<List<EstateItem>> items = itemRawDao.getItems(query);
+            String getMinSurface = data.getString("minSurface");
+            String getMaxSurface = data.getString("maxSurface");
+            String getMinPrice = data.getString("minPrice");
+            String getMaxPrice = data.getString("maxPrice");
+            String getMinRoom = data.getString("minRoom");
+            String getMaxRoom = data.getString("maxRoom");
+
+            int minSurface = Integer.parseInt(getMinSurface);
+            int maxSurface = Integer.parseInt(getMaxSurface);
+            int minPrice = Integer.parseInt(getMinPrice);
+            int maxPrice = Integer.parseInt(getMaxPrice);
+            int minRoom = Integer.parseInt(getMinRoom);
+            int maxRoom = Integer.parseInt(getMaxRoom);
+            SimpleSQLiteQuery query = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estateSurface BETWEEN "+minSurface+" AND " +maxSurface+ " AND estatePrice BETWEEN "+minPrice+" AND " +maxPrice+ " AND estateRoom" +
+                    "BETWEEN " +minRoom+ " AND " +maxRoom);
+            LiveData<List<EstateItem>> items = itemRawDao.getItems(query);
+            mAdapter = new EstateAdapter(items.getValue());
+        }
     }
 
     @Override
@@ -183,9 +199,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.menu_map:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MapFragment()).commit();
+                search = false;
                 break;
             case R.id.loan_menu:
                 Intent intent = new Intent(this, MortgageActivity.class);
+                search = false;
                 startActivity(intent);
                 break;
         }

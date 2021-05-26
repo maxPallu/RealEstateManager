@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,12 +45,21 @@ public class SearchActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
                 getMinPrice = minPrice.getText().toString();
                 getMaxPrice = maxPrice.getText().toString();
                 getMinSurface = minSurface.getText().toString();
                 getMaxSurface = maxSurface.getText().toString();
                 getMinRoom = minRoom.getText().toString();
                 getMaxRoom = maxRoom.getText().toString();
+
+                intent.putExtra("minPrice", getMinPrice);
+                intent.putExtra("maxPrice", getMaxPrice);
+                intent.putExtra("minSurface", getMinSurface);
+                intent.putExtra("maxSurface", getMaxSurface);
+                intent.putExtra("minRoom", getMinRoom);
+                intent.putExtra("maxRoom", getMaxRoom);
 
                 finish();
             }
