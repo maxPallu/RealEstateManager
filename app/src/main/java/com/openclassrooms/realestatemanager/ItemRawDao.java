@@ -10,5 +10,5 @@ import java.util.List;
 @Dao
 public interface ItemRawDao {
     @RawQuery(observedEntities = EstateItem.class)
-    List<EstateItem> getItems(SupportSQLiteQuery query);
+    LiveData<List<EstateItem>> getItems(SupportSQLiteQuery query);
 }

@@ -30,6 +30,7 @@ import android.view.View;
 
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.configureFragment();
         this.configureDetailFragment();
+        itemRawDao = Database.getInstance(this).itemRawDao();
 
         drawer = findViewById(R.id.activity_main_drawer_layout);
         NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
@@ -172,16 +174,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int maxRoom = Integer.parseInt(getMaxRoom);
             SimpleSQLiteQuery myQuery = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estateSurface BETWEEN "+minSurface+" AND " +maxSurface+ " AND estatePrice BETWEEN "+minPrice+" AND " +maxPrice+ " AND estateRoom " +
                     "BETWEEN " +minRoom+ " AND " +maxRoom);
-
-            itemRawDao = new ItemRawDao() {
-                @Override
-                public List<EstateItem> getItems(SupportSQLiteQuery query) {
-                    mEstates = (ArrayList<EstateItem>) getItems(query);
-                    return mEstates;
-                }
-            };
-
-            mAdapter = new EstateAdapter(itemRawDao.getItems(myQuery));
+            List<EstateItem> estateItems = itemRawDao.getItems(myQuery).getValue();
+            mAdapter = new EstateAdapter(estateItems);
+            mRecyclerView.setAdapter(mAdapter);
         }
     }
 

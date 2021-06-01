@@ -10,6 +10,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.openclassrooms.realestatemanager.EstateItem;
+import com.openclassrooms.realestatemanager.ItemRawDao;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
 
 import javax.security.auth.callback.Callback;
@@ -20,6 +21,7 @@ public abstract class Database extends RoomDatabase {
     private static volatile Database INSTANCE;
 
     public abstract EstateDao estateDao();
+    public abstract ItemRawDao itemRawDao();
 
     public static Database getInstance(Context context) {
         if(INSTANCE == null) {
