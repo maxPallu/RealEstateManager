@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +36,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.openclassrooms.realestatemanager.DI.DI;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.database.Database;
 import com.openclassrooms.realestatemanager.models.Result;
 import com.openclassrooms.realestatemanager.util.ApiCalls;
 import com.openclassrooms.realestatemanager.util.PermissionUtils;
@@ -49,6 +52,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private ArrayList<EstateItem> mEstateItems = new ArrayList<>();
     private ItemViewModel itemViewModel;
+    long estateId;
 
     @Nullable
     @Override
@@ -133,6 +137,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             for(int i =0; i<locations.size(); i++) {
                 double lat = locations.get(i).getGeometry().getLocation().getLat();
                 double lng = locations.get(i).getGeometry().getLocation().getLng();
+                estateId = mEstateItems.get(i).getEstateId();
 
                 LatLng latLng = new LatLng(lat, lng);
                 mMap.addMarker(new MarkerOptions()
@@ -182,6 +187,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onResponse(@Nullable List<Result> locations) {
         setupMarkers(locations);
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if(locations != null && locations.isEmpty() == false) {
+                    for(int i =0; i<locations.size(); i++) {
+                        Intent intent = new Intent(getActivity(), DetailActivity.class);
+                        estateId = mEstateItems.get(i).getEstateId();
+                        intent.putExtra("estatePrice", mEstateItems.get(i).getEstatePrice());
+                        intent.putExtra("estateType", mEstateItems.get(i).getEstateType());
+                        intent.putExtra("estateCity", mEstateItems.get(i).getEstateCity());
+                        intent.putExtra("estatePrice", mEstateItems.get(i).getEstatePrice());
+                        intent.putExtra("estateRoom", mEstateItems.get(i).getEstateRoom());
+                        intent.putExtra("estateSurface", mEstateItems.get(i).getEstateSurface());
+                        intent.putExtra("estateAdress", mEstateItems.get(i).getEstateAdress());
+                        intent.putExtra("estatePicture", mEstateItems.get(i).getEstatePictureUri());
+                        intent.putExtra("estateDescription", mEstateItems.get(i).getEstateDescription());
+                        intent.putExtra("estateId", mEstateItems.get(i).getEstateId());
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
     }
 
     @Override

@@ -172,11 +172,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int maxPrice = Integer.parseInt(getMaxPrice);
             int minRoom = Integer.parseInt(getMinRoom);
             int maxRoom = Integer.parseInt(getMaxRoom);
-            SimpleSQLiteQuery myQuery = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estateSurface BETWEEN "+minSurface+" AND " +maxSurface+ " AND estatePrice BETWEEN "+minPrice+" AND " +maxPrice+ " AND estateRoom " +
-                    "BETWEEN " +minRoom+ " AND " +maxRoom);
-            List<EstateItem> estateItems = itemRawDao.getItems(myQuery).getValue();
-            mAdapter = new EstateAdapter(estateItems);
-            mRecyclerView.setAdapter(mAdapter);
+            SimpleSQLiteQuery myQuery = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estatePrice BETWEEN "+minPrice+" AND " +maxPrice);
+            // WHERE estateSurface BETWEEN "+minSurface+" AND " +maxSurface+ " AND estatePrice BETWEEN "+minPrice+" AND " +maxPrice+ " AND estateRoom " +
+            //         "BETWEEN " +minRoom+ " AND " +maxRoom);
+            LiveData<List<EstateItem>> estateItems = itemRawDao.getItems(myQuery);
+            estateItems.observe(this, new Observer<List<EstateItem>>() {
+                @Override
+                public void onChanged(List<EstateItem> estateItems) {
+                    mEstates = (ArrayList<EstateItem>) estateItems;
+                    mAdapter = new EstateAdapter(mEstates);
+                    mRecyclerView.setAdapter(mAdapter);
+                }
+            });
+
         }
     }
 
