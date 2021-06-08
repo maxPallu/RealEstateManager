@@ -45,8 +45,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private ImageView detailPicture;
     private String estateUri;
 
-    private String estateSurface;
-    private String estateRoom;
+    private int estateSurface;
+    private int estateRoom;
     private String estateCity;
     private String estateAdress;
     private String estateDescription;
@@ -86,15 +86,18 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         String estatePrice = intent.getStringExtra("estatePrice");
         estateId = intent.getIntExtra("estateId", 0);
-        estateSurface = intent.getStringExtra("estateSurface");
-        estateRoom = intent.getStringExtra("estateRoom");
+        estateSurface = intent.getIntExtra("estateSurface", 0);
+        estateRoom = intent.getIntExtra("estateRoom", 0);
         estateCity = intent.getStringExtra("estateCity");
         estateAdress = intent.getStringExtra("estateAdress");
         estateUri = intent.getStringExtra("estatePicture");
         estateDescription = intent.getStringExtra("estateDescription");
 
-        detailSurface.setText(estateSurface + " sq m");
-        detailRoom.setText(estateRoom);
+        String textSurface = String.valueOf(estateSurface);
+        String textRoom = String.valueOf(estateRoom);
+
+        detailSurface.setText(textSurface + " sq m");
+        detailRoom.setText(textRoom);
         detailCity.setText(estateCity);
         detailAdress.setText(estateAdress);
         detailDescription.setText(estateDescription);
@@ -149,8 +152,11 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 Intent intent = getIntent();
                 estateId = intent.getIntExtra("estateId", 0);
 
-                detailSurface.setText(mEstates.get(estateId).getEstateSurface() + " sq m");
-                detailRoom.setText(mEstates.get(estateId).getEstateRoom());
+                String textSurface = String.valueOf(mEstates.get(estateId).getEstateSurface());
+                String textRoom = String.valueOf(mEstates.get(estateId).getEstateRoom());
+
+                detailSurface.setText(textSurface + " sq m");
+                detailRoom.setText(textRoom);
                 detailCity.setText(mEstates.get(estateId).getEstateCity());
                 detailAdress.setText(mEstates.get(estateId).getEstateAdress());
                 detailDescription.setText(mEstates.get(estateId).getEstateDescription());

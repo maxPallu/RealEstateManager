@@ -112,8 +112,14 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EstateItem item = new EstateItem(position, type, price.getEditText().getText().toString(),
-                        surface.getEditText().getText().toString(), numberRoom, city.getEditText().getText().toString(), adress.getEditText().getText().toString());
+                String getSurface = surface.getEditText().toString();
+                int intSurface = Integer.parseInt(getSurface);
+                String getPrice = price.getEditText().toString();
+                int intPrice = Integer.parseInt(getPrice);
+                int room = Integer.parseInt(numberRoom);
+
+                EstateItem item = new EstateItem(position, type, intPrice,
+                        intSurface, room, city.getEditText().getText().toString(), adress.getEditText().getText().toString());
 
                 //item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());

@@ -161,8 +161,14 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onClick(View view) {
 
-                item = new EstateItem(type, price.getEditText().getText().toString(),
-                        surface.getEditText().getText().toString(), numberRoom, city.getText().toString(), adress.getText().toString());
+                String getSurface = surface.getEditText().getText().toString();
+                int intSurface = Integer.parseInt(getSurface);
+                String getPrice = price.getEditText().getText().toString();
+                int intPrice = Integer.parseInt(getPrice);
+                int room = Integer.parseInt(numberRoom);
+
+                item = new EstateItem(type, intPrice,
+                        intSurface, room, city.getText().toString(), adress.getText().toString());
 
                 item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());

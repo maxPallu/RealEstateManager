@@ -75,9 +75,9 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     Bundle bundle = new Bundle();
                     bundle.putString("estateType", currentItem.getEstateType());
                     bundle.putString("estateCity", currentItem.getEstateCity());
-                    bundle.putString("estatePrice", currentItem.getEstatePrice());
-                    bundle.putString("estateRoom", currentItem.getEstateRoom());
-                    bundle.putString("estateSurface", currentItem.getEstateSurface());
+                    bundle.putInt("estatePrice", currentItem.getEstatePrice());
+                    bundle.putInt("estateRoom", currentItem.getEstateRoom());
+                    bundle.putInt("estateSurface", currentItem.getEstateSurface());
                     bundle.putString("estateAdress", currentItem.getEstateAdress());
                     bundle.putString("pictureUri", currentItem.getEstatePictureUri());
                     createFragment(view.getContext(), bundle);

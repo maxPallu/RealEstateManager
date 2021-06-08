@@ -172,9 +172,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int maxPrice = Integer.parseInt(getMaxPrice);
             int minRoom = Integer.parseInt(getMinRoom);
             int maxRoom = Integer.parseInt(getMaxRoom);
-            SimpleSQLiteQuery myQuery = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estatePrice BETWEEN "+minPrice+" AND " +maxPrice);
-            // WHERE estateSurface BETWEEN "+minSurface+" AND " +maxSurface+ " AND estatePrice BETWEEN "+minPrice+" AND " +maxPrice+ " AND estateRoom " +
-            //         "BETWEEN " +minRoom+ " AND " +maxRoom);
+            SimpleSQLiteQuery myQuery = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estateRoom >= "+minRoom+" AND estateRoom <= " +maxRoom+
+                    " AND estatePrice >= "+minPrice+" AND estatePrice <= "+maxPrice+ " AND estateSurface >= "+minSurface+" AND estateSurface <= "+maxSurface);
             LiveData<List<EstateItem>> estateItems = itemRawDao.getItems(myQuery);
             estateItems.observe(this, new Observer<List<EstateItem>>() {
                 @Override

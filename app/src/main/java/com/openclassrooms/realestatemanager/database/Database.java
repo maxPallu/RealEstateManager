@@ -46,7 +46,9 @@ public abstract class Database extends RoomDatabase {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("estateId", 0);
                 contentValues.put("estateType", "House");
-                contentValues.put("estatePrice", "250000");
+                contentValues.put("estatePrice", 250000);
+                contentValues.put("estateSurface", 20);
+                contentValues.put("estateRoom", 5);
                 contentValues.put("estateCity", "Los Angeles");
                 contentValues.put("estatePictureUri", "https://thumbs.dreamstime.com/b/berlin-headquarters-deutsche-bahn-potsdamer-platz-56075878.jpg");
 

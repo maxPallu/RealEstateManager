@@ -137,12 +137,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             for(int i =0; i<locations.size(); i++) {
                 double lat = locations.get(i).getGeometry().getLocation().getLat();
                 double lng = locations.get(i).getGeometry().getLocation().getLng();
-                estateId = mEstateItems.get(i).getEstateId();
-
-                LatLng latLng = new LatLng(lat, lng);
-                mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title(mEstateItems.get(i).getEstateType()));
+                ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this.getContext());
+                this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+                this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
+                    @Override
+                    public void onChanged(List<EstateItem> estateItems) {
+                        mEstateItems.clear();
+                        mEstateItems.addAll(estateItems);
+                        for(int j = 0; j<estateItems.size(); j++) {
+                            LatLng latLng = new LatLng(lat, lng);
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(latLng)
+                                    .title(estateItems.get(j).getEstateType()))
+                                    .setTag(estateItems.get(j).getEstateId());
+                        }
+                    }
+                });
             }
         }
     }
@@ -192,18 +202,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             public void onInfoWindowClick(Marker marker) {
                 if(locations != null && locations.isEmpty() == false) {
                     for(int i =0; i<locations.size(); i++) {
+                        int estateId = Integer.parseInt(marker.getTag().toString());
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
-                        estateId = mEstateItems.get(i).getEstateId();
-                        intent.putExtra("estatePrice", mEstateItems.get(i).getEstatePrice());
-                        intent.putExtra("estateType", mEstateItems.get(i).getEstateType());
-                        intent.putExtra("estateCity", mEstateItems.get(i).getEstateCity());
-                        intent.putExtra("estatePrice", mEstateItems.get(i).getEstatePrice());
-                        intent.putExtra("estateRoom", mEstateItems.get(i).getEstateRoom());
-                        intent.putExtra("estateSurface", mEstateItems.get(i).getEstateSurface());
-                        intent.putExtra("estateAdress", mEstateItems.get(i).getEstateAdress());
-                        intent.putExtra("estatePicture", mEstateItems.get(i).getEstatePictureUri());
-                        intent.putExtra("estateDescription", mEstateItems.get(i).getEstateDescription());
-                        intent.putExtra("estateId", mEstateItems.get(i).getEstateId());
+                        intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
+                        intent.putExtra("estateType", marker.getTitle());
+                        intent.putExtra("estateCity", mEstateItems.get(estateId).getEstateCity());
+                        intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
+                        intent.putExtra("estateRoom", mEstateItems.get(estateId).getEstateRoom());
+                        intent.putExtra("estateSurface", mEstateItems.get(estateId).getEstateSurface());
+                        intent.putExtra("estateAdress", mEstateItems.get(estateId).getEstateAdress());
+                        intent.putExtra("estatePicture", mEstateItems.get(estateId).getEstatePictureUri());
+                        intent.putExtra("estateDescription", mEstateItems.get(estateId).getEstateDescription());
+                        intent.putExtra("estateId", mEstateItems.get(estateId).getEstateId());
                         startActivity(intent);
                     }
                 }
