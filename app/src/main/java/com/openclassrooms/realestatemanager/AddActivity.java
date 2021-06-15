@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -40,7 +42,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     private String type;
     private TextInputLayout price;
@@ -52,6 +54,10 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private Button mTakePhoto;
     private Button galleryPhoto;
     private ImageView viewPhoto;
+    private DatePicker datePicker;
+    private int day;
+    private int month;
+    private int year;
 
     private static final int PERMISSION_CODE = 1000;
     private static int selectType = 0;
@@ -79,6 +85,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         mTakePhoto = findViewById(R.id.buttonCamera);
         viewPhoto = findViewById(R.id.viewPhoto);
         galleryPhoto = findViewById(R.id.buttonGallery);
+        datePicker = findViewById(R.id.datePicker);
 
         description = findViewById(R.id.textDescription);
 
@@ -168,7 +175,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 int room = Integer.parseInt(numberRoom);
 
                 item = new EstateItem(type, intPrice,
-                        intSurface, room, city.getText().toString(), adress.getText().toString());
+                        intSurface, room, city.getText().toString(), adress.getText().toString(), year, month, day);
 
                 item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());
@@ -236,5 +243,12 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        year = i;
+        month = i1;
+        day = i2;
     }
 }

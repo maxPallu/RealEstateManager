@@ -146,10 +146,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         mEstateItems.addAll(estateItems);
                         for(int j = 0; j<estateItems.size(); j++) {
                             LatLng latLng = new LatLng(lat, lng);
-                            mMap.addMarker(new MarkerOptions()
+                            Marker marker = mMap.addMarker(new MarkerOptions()
                                     .position(latLng)
-                                    .title(estateItems.get(j).getEstateType()))
-                                    .setTag(estateItems.get(j).getEstateId());
+                                    .title(estateItems.get(j).getEstateType()));
+                            marker.setTag(estateItems.get(j).getEstateId());
                         }
                     }
                 });
@@ -202,19 +202,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             public void onInfoWindowClick(Marker marker) {
                 if(locations != null && locations.isEmpty() == false) {
                     for(int i =0; i<locations.size(); i++) {
-                        int estateId = Integer.parseInt(marker.getTag().toString());
-                        Intent intent = new Intent(getActivity(), DetailActivity.class);
-                        intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
-                        intent.putExtra("estateType", marker.getTitle());
-                        intent.putExtra("estateCity", mEstateItems.get(estateId).getEstateCity());
-                        intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
-                        intent.putExtra("estateRoom", mEstateItems.get(estateId).getEstateRoom());
-                        intent.putExtra("estateSurface", mEstateItems.get(estateId).getEstateSurface());
-                        intent.putExtra("estateAdress", mEstateItems.get(estateId).getEstateAdress());
-                        intent.putExtra("estatePicture", mEstateItems.get(estateId).getEstatePictureUri());
-                        intent.putExtra("estateDescription", mEstateItems.get(estateId).getEstateDescription());
-                        intent.putExtra("estateId", mEstateItems.get(estateId).getEstateId());
-                        startActivity(intent);
+                        for(int j = 0; j<mEstateItems.size(); j++) {
+                            String city = String.valueOf(mEstateItems.get(j).getEstateCity());
+                            if (city.contains(locations.get(i).getFormattedAddress())) {
+                                int estateId = Integer.parseInt(marker.getTag().toString());
+                                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                                intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
+                                intent.putExtra("estateType", marker.getTitle());
+                                intent.putExtra("estateCity", mEstateItems.get(estateId).getEstateCity());
+                                intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
+                                intent.putExtra("estateRoom", mEstateItems.get(estateId).getEstateRoom());
+                                intent.putExtra("estateSurface", mEstateItems.get(estateId).getEstateSurface());
+                                intent.putExtra("estateAdress", mEstateItems.get(estateId).getEstateAdress());
+                                intent.putExtra("estatePicture", mEstateItems.get(estateId).getEstatePictureUri());
+                                intent.putExtra("estateDescription", mEstateItems.get(estateId).getEstateDescription());
+                                intent.putExtra("estateId", mEstateItems.get(estateId).getEstateId());
+                                startActivity(intent);
+                        }
+                        }
                     }
                 }
             }
