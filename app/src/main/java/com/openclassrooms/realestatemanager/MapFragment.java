@@ -78,12 +78,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             public void onChanged(List<EstateItem> estateItems) {
                 mEstateItems.addAll(estateItems);
 
-                for(int i = 0; i<mEstateItems.size(); i++) {
-                    String address = mEstateItems.get(i).getEstateAdress()+mEstateItems.get(i).getEstateCity();
-                    getAdress(address);
+                for(EstateItem item: mEstateItems) {
+                    String address = item.getEstateAdress()+" "+item.getEstateCity();
+                    ApiCalls.fetchLocations(new ApiCalls.Callbacks() {
+                        @Override
+                        public void onResponse(List<Result> locations) {
+                            setupMarkers(locations, item);
+                        }
+
+                        @Override
+                        public void onFailure() {
+
+                        }
+                    }, address);
                 }
             }
         });
+
     }
 
     @Override
@@ -105,6 +116,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         });
         googleMap.setOnMyLocationClickListener(this);
         enableMyLocation();
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                int estateId = Integer.parseInt(marker.getTag().toString());
+
+                for(EstateItem item: mEstateItems) {
+                    String city = String.valueOf(item.getEstateCity());
+                    if (item.getEstateId() == estateId) {
+                        Intent intent = new Intent(getActivity(), DetailActivity.class);
+                        intent.putExtra("estatePrice", item.getEstatePrice());
+                        intent.putExtra("estateType", marker.getTitle());
+                        intent.putExtra("estateCity", item.getEstateCity());
+                        intent.putExtra("estatePrice", item.getEstatePrice());
+                        intent.putExtra("estateRoom", item.getEstateRoom());
+                        intent.putExtra("estateSurface", item.getEstateSurface());
+                        intent.putExtra("estateAdress", item.getEstateAdress());
+                        intent.putExtra("estatePicture", item.getEstatePictureUri());
+                        intent.putExtra("estateDescription", item.getEstateDescription());
+                        intent.putExtra("estateId", estateId);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -128,32 +164,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     }
 
-    private void getAdress(String address) {
-        ApiCalls.fetchLocations(this, address);
-    }
-
-    private void setupMarkers(List<Result> locations) {
+    private void setupMarkers(List<Result> locations, EstateItem item) {
         if(locations != null && locations.isEmpty() == false) {
-            for(int i =0; i<locations.size(); i++) {
-                double lat = locations.get(i).getGeometry().getLocation().getLat();
-                double lng = locations.get(i).getGeometry().getLocation().getLng();
-                ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this.getContext());
-                this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
-                this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
-                    @Override
-                    public void onChanged(List<EstateItem> estateItems) {
-                        mEstateItems.clear();
-                        mEstateItems.addAll(estateItems);
-                        for(int j = 0; j<estateItems.size(); j++) {
-                            LatLng latLng = new LatLng(lat, lng);
-                            Marker marker = mMap.addMarker(new MarkerOptions()
-                                    .position(latLng)
-                                    .title(estateItems.get(j).getEstateType()));
-                            marker.setTag(estateItems.get(j).getEstateId());
-                        }
-                    }
-                });
-            }
+            double lat = locations.get(0).getGeometry().getLocation().getLat();
+            double lng = locations.get(0).getGeometry().getLocation().getLng();
+            LatLng latLng = new LatLng(lat, lng);
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(item.getEstateType()));
+            marker.setTag(item.getEstateId());
         }
     }
 
@@ -196,34 +215,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     @Override
     public void onResponse(@Nullable List<Result> locations) {
-        setupMarkers(locations);
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                if(locations != null && locations.isEmpty() == false) {
-                    for(int i =0; i<locations.size(); i++) {
-                        for(int j = 0; j<mEstateItems.size(); j++) {
-                            String city = String.valueOf(mEstateItems.get(j).getEstateCity());
-                            if (city.contains(locations.get(i).getFormattedAddress())) {
-                                int estateId = Integer.parseInt(marker.getTag().toString());
-                                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                                intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
-                                intent.putExtra("estateType", marker.getTitle());
-                                intent.putExtra("estateCity", mEstateItems.get(estateId).getEstateCity());
-                                intent.putExtra("estatePrice", mEstateItems.get(estateId).getEstatePrice());
-                                intent.putExtra("estateRoom", mEstateItems.get(estateId).getEstateRoom());
-                                intent.putExtra("estateSurface", mEstateItems.get(estateId).getEstateSurface());
-                                intent.putExtra("estateAdress", mEstateItems.get(estateId).getEstateAdress());
-                                intent.putExtra("estatePicture", mEstateItems.get(estateId).getEstatePictureUri());
-                                intent.putExtra("estateDescription", mEstateItems.get(estateId).getEstateDescription());
-                                intent.putExtra("estateId", mEstateItems.get(estateId).getEstateId());
-                                startActivity(intent);
-                        }
-                        }
-                    }
-                }
-            }
-        });
+
     }
 
     @Override

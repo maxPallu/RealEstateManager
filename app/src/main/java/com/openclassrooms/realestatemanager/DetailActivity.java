@@ -84,7 +84,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Intent intent = getIntent();
 
-        String estatePrice = intent.getStringExtra("estatePrice");
+        int estatePrice = intent.getIntExtra("estatePrice", 0);
         estateId = intent.getIntExtra("estateId", 0);
         estateSurface = intent.getIntExtra("estateSurface", 0);
         estateRoom = intent.getIntExtra("estateRoom", 0);
