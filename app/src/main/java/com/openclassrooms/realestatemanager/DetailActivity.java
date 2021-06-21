@@ -41,6 +41,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private TextView detailCity;
     private TextView detailAdress;
     private TextView detailDescription;
+    private TextView date;
 
     private ImageView detailPicture;
     private String estateUri;
@@ -76,6 +77,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailDescription = findViewById(R.id.detailDescription);
         back = findViewById(R.id.back);
         edit = findViewById(R.id.editButton);
+        date = findViewById(R.id.showDate);
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.map, mapFragment).commit();
@@ -92,6 +94,9 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         estateAdress = intent.getStringExtra("estateAdress");
         estateUri = intent.getStringExtra("estatePicture");
         estateDescription = intent.getStringExtra("estateDescription");
+        int estateYear = intent.getIntExtra("estateYear", 0);
+        int estateMonth = intent.getIntExtra("estateMonth", 0);
+        int estateDay = intent.getIntExtra("estateDay", 0);
 
         String textSurface = String.valueOf(estateSurface);
         String textRoom = String.valueOf(estateRoom);
@@ -101,6 +106,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailCity.setText(estateCity);
         detailAdress.setText(estateAdress);
         detailDescription.setText(estateDescription);
+        date.setText(estateDay+"/"+estateMonth+"/"+estateYear);
 
         //Uri pictureUri = Uri.parse(estateUri);
         // detailPicture.setImageURI(pictureUri);

@@ -94,12 +94,13 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     intent.putExtra("estateAdress", currentItem.getEstateAdress());
                     intent.putExtra("estatePicture", currentItem.getEstatePictureUri());
                     intent.putExtra("estateDescription", currentItem.getEstateDescription());
+                    intent.putExtra("estateYear", currentItem.getEstateYear());
+                    intent.putExtra("estateMonth", currentItem.getEstateMonth());
+                    intent.putExtra("estateDay", currentItem.getEstateDay());
                     intent.putExtra("estateId", position);
 
                     view.getContext().startActivity(intent);
                 }
-
-                holder.itemView.setBackgroundColor(view.getResources().getColor(R.color.background));
             }
         });
     }

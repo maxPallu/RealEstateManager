@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.DI.DI;
@@ -54,10 +56,10 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private Button mTakePhoto;
     private Button galleryPhoto;
     private ImageView viewPhoto;
-    private DatePicker datePicker;
     private int day;
     private int month;
     private int year;
+    private TextView date;
 
     private static final int PERMISSION_CODE = 1000;
     private static int selectType = 0;
@@ -85,7 +87,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         mTakePhoto = findViewById(R.id.buttonCamera);
         viewPhoto = findViewById(R.id.viewPhoto);
         galleryPhoto = findViewById(R.id.buttonGallery);
-        datePicker = findViewById(R.id.datePicker);
+        date = findViewById(R.id.displayDate);
 
         description = findViewById(R.id.textDescription);
 
@@ -188,6 +190,19 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         });
     }
 
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int y, int m, int dayOfMonth) {
+        year = y;
+        month = m+1;
+        day = dayOfMonth;
+        date.setText(day+"/"+month+"/"+year);
+    }
+
     private void openCamera() {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
@@ -243,12 +258,5 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        year = i;
-        month = i1;
-        day = i2;
     }
 }

@@ -24,8 +24,6 @@ public class ApiCalls {
 
     public static void fetchLocations(Callbacks callbacks, String adress) {
 
-        final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<>(callbacks);
-
         LocationService locationService = LocationService.retrofit.create(LocationService.class);
 
         Call<Geocoder> call = locationService.getLocation(adress);
@@ -33,14 +31,14 @@ public class ApiCalls {
         call.enqueue(new Callback<Geocoder>() {
             @Override
             public void onResponse(Call<Geocoder> call, Response<Geocoder> response) {
-                if(callbacksWeakReference != null) {
-                    callbacksWeakReference.get().onResponse(response.body().getResults());
+                if(callbacks != null) {
+                    callbacks.onResponse(response.body().getResults());
                 }
             }
 
             @Override
             public void onFailure(Call<Geocoder> call, Throwable t) {
-                if(callbacksWeakReference != null) callbacksWeakReference.get().onFailure();
+                if(callbacks != null) callbacks.onFailure();
             }
         });
     }

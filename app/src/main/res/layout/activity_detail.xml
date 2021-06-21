@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".DetailActivity">
@@ -196,33 +196,34 @@
             android:layout_marginTop="10dp"/>
 
         <ImageView
-            android:id="@+id/bedroomImage"
+            android:id="@+id/dateDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_hotel_24"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="55dp"
+            android:src="@drawable/ic_baseline_date_range_24"
             app:layout_constraintStart_toEndOf="@+id/surface"
             app:layout_constraintTop_toBottomOf="@+id/roomImage"
-            android:layout_marginTop="55dp"
-            android:layout_marginLeft="105dp"/>
+            app:tint="#707070" />
 
         <TextView
-            android:id="@+id/bedroomText"
+            android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/surface"
-            app:layout_constraintStart_toEndOf="@+id/bedroomImage"
+            app:layout_constraintStart_toEndOf="@+id/dateDetail"
             android:layout_marginTop="55dp"
             android:layout_marginLeft="15dp"
-            android:text="Number of bedrooms"
+            android:text="Sale date"
             android:textStyle="bold"
             android:textSize="13dp"/>
 
         <TextView
-            android:id="@+id/bedroomNumber"
+            android:id="@+id/showDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/bedroomText"
-            app:layout_constraintStart_toEndOf="@+id/bedroomImage"
+            app:layout_constraintTop_toBottomOf="@+id/dateText"
+            app:layout_constraintStart_toEndOf="@+id/dateDetail"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"/>
 
