@@ -21,6 +21,15 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    
+    <string-array name="sellers">
+        <item>John</item>
+        <item>Brad</item>
+        <item>Tom</item>
+        <item>Max</item>
+        <item>Angelina</item>
+        <item>Amanda</item>
+    </string-array>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

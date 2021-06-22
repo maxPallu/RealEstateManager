@@ -165,32 +165,32 @@
             android:layout_marginTop="10dp"/>
 
         <ImageView
-            android:id="@+id/bathroomImage"
+            android:id="@+id/entryImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_hot_tub_24"
+            android:src="@drawable/ic_baseline_date_range_24"
             app:layout_constraintTop_toBottomOf="@id/estateSize"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="55dp"/>
 
         <TextView
-            android:id="@+id/bathroomText"
+            android:id="@+id/entryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/surface"
             app:layout_constraintStart_toEndOf="@+id/estateSize"
             android:layout_marginTop="55dp"
             android:layout_marginLeft="15dp"
-            android:text="Number of bathrooms"
+            android:text="Entry date"
             android:textStyle="bold"
             android:textSize="13dp"/>
 
         <TextView
-            android:id="@+id/bathroomNumber"
+            android:id="@+id/entryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/bathroomText"
+            app:layout_constraintTop_toBottomOf="@+id/entryTitle"
             app:layout_constraintStart_toEndOf="@+id/estateSize"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"/>
@@ -232,7 +232,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_location_on_24"
-            app:layout_constraintTop_toBottomOf="@id/bathroomNumber"
+            app:layout_constraintTop_toBottomOf="@id/entryText"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="55dp"/>
@@ -241,7 +241,7 @@
             android:id="@+id/locationText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/bathroomNumber"
+            app:layout_constraintTop_toBottomOf="@+id/entryText"
             app:layout_constraintStart_toEndOf="@+id/location"
             android:layout_marginTop="55dp"
             android:layout_marginLeft="15dp"
@@ -267,6 +267,36 @@
             android:layout_marginBottom="35dp"
             app:layout_constraintStart_toEndOf="@+id/location"
             app:layout_constraintTop_toBottomOf="@+id/locationCity" />
+
+        <ImageView
+            android:id="@+id/sellerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_people_24"
+            app:layout_constraintStart_toEndOf="@+id/locationText"
+            app:layout_constraintTop_toBottomOf="@+id/showDate"
+            android:layout_marginTop="55dp"
+            android:layout_marginStart="105dp"/>
+
+        <TextView
+            android:id="@+id/sellerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/sellerImage"
+            app:layout_constraintTop_toBottomOf="@+id/showDate"
+            android:layout_marginTop="55dp"
+            android:layout_marginStart="15dp"
+            android:textStyle="bold"
+            android:text="Seller's name"/>
+
+        <TextView
+            android:id="@+id/sellerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/sellerImage"
+            app:layout_constraintStart_toEndOf="@id/locationCity"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="175dp"/>
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:map="http://schemas.android.com/apk/res-auto"

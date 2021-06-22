@@ -51,6 +51,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private TextInputLayout surface;
     private TextInputEditText city;
     private String numberRoom;
+    private String sellerName;
     private TextInputLayout description;
     private TextInputEditText adress;
     private Button mTakePhoto;
@@ -83,6 +84,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
         Spinner typeSpinner = findViewById(R.id.spinnerType);
         Spinner roomSpinner = findViewById(R.id.spinnerRoom);
+        Spinner sellerSpinner = findViewById(R.id.spinnerSeller);
         Button add = findViewById(R.id.addButton);
         mTakePhoto = findViewById(R.id.buttonCamera);
         viewPhoto = findViewById(R.id.viewPhoto);
@@ -147,11 +149,14 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type));
         ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.number));
+        ArrayAdapter<String> sellerAdapter = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sellers));
 
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sellerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeAdapter);
         roomSpinner.setAdapter(roomAdapter);
+        sellerSpinner.setAdapter(sellerAdapter);
 
         typeSpinner.setOnItemSelectedListener(this);
         roomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -162,6 +167,17 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        sellerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sellerName = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -177,7 +193,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 int room = Integer.parseInt(numberRoom);
 
                 item = new EstateItem(type, intPrice,
-                        intSurface, room, city.getText().toString(), adress.getText().toString(), year, month, day);
+                        intSurface, room, city.getText().toString(), adress.getText().toString(), year, month, day, sellerName);
 
                 item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());

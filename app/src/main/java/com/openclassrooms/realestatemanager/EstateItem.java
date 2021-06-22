@@ -20,11 +20,12 @@ public class EstateItem {
     private String estateAdress;
     private String estatePictureUri;
     private String estateDescription;
+    private String estateSeller;
     private int estateYear;
     private int estateMonth;
     private int estateDay;
 
-    public EstateItem(String type, int price, int surface, int numberRoom, String city, String adress, int year, int month, int day) {
+    public EstateItem(String type, int price, int surface, int numberRoom, String city, String adress, int year, int month, int day, String seller) {
         estateType = type;
         estatePrice = price;
         estateSurface = surface;
@@ -34,6 +35,7 @@ public class EstateItem {
         estateYear = year;
         estateMonth = month;
         estateDay = day;
+        estateSeller = seller;
     }
 
     public EstateItem(long id, String type, int price, int surface, int numberRoom, String city, String adress) {
@@ -57,6 +59,14 @@ public class EstateItem {
 
     public EstateItem() {
 
+    }
+
+    public String getEstateSeller() {
+        return estateSeller;
+    }
+
+    public void setEstateSeller(String estateSeller) {
+        this.estateSeller = estateSeller;
     }
 
     public String getEstateDescription() {

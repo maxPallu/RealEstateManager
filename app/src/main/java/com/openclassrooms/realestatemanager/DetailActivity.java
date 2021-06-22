@@ -42,6 +42,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private TextView detailAdress;
     private TextView detailDescription;
     private TextView date;
+    private TextView detailSeller;
 
     private ImageView detailPicture;
     private String estateUri;
@@ -51,6 +52,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private String estateCity;
     private String estateAdress;
     private String estateDescription;
+    private String estateSeller;
 
     private ItemViewModel itemViewModel;
 
@@ -75,6 +77,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailAdress = findViewById(R.id.locationAdress);
         detailPicture = (ImageView) findViewById(R.id.pictureView);
         detailDescription = findViewById(R.id.detailDescription);
+        detailSeller = findViewById(R.id.sellerText);
         back = findViewById(R.id.back);
         edit = findViewById(R.id.editButton);
         date = findViewById(R.id.showDate);
@@ -94,6 +97,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         estateAdress = intent.getStringExtra("estateAdress");
         estateUri = intent.getStringExtra("estatePicture");
         estateDescription = intent.getStringExtra("estateDescription");
+        estateSeller = intent.getStringExtra("estateSeller");
         int estateYear = intent.getIntExtra("estateYear", 0);
         int estateMonth = intent.getIntExtra("estateMonth", 0);
         int estateDay = intent.getIntExtra("estateDay", 0);
@@ -107,6 +111,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailAdress.setText(estateAdress);
         detailDescription.setText(estateDescription);
         date.setText(estateDay+"/"+estateMonth+"/"+estateYear);
+        detailSeller.setText(estateSeller);
 
         //Uri pictureUri = Uri.parse(estateUri);
         // detailPicture.setImageURI(pictureUri);
