@@ -38,7 +38,7 @@ public class EstateDaoTest {
     }
 
     private static int ESTATE_ID = 1;
-    private static EstateItem itemDemo = new EstateItem(ESTATE_ID, "House", "250000", "250", "4", "Los Angeles", "25 Test Street");
+    private static EstateItem itemDemo = new EstateItem(ESTATE_ID, "House", 250000, 250, 4, "Los Angeles", "25 Test Street");
 
     @Test
     public void insertAndGetItem() throws InterruptedException {

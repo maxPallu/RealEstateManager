@@ -3,11 +3,13 @@ package com.openclassrooms.realestatemanager;
 import android.content.Context;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -26,7 +28,7 @@ public class Utils {
     }
 
     public static int convertEuroToDollar(int euro) {
-        return (int) Math.round(euro / 0.812);
+        return (int) Math.round(euro * 1.19);
     }
 
     /**
@@ -47,7 +49,8 @@ public class Utils {
      */
     public static Boolean isInternetAvailable(Context context){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+        NetworkInfo networkInfo = Objects.requireNonNull(cm).getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
 
        // WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
        // return wifi.isWifiEnabled();
