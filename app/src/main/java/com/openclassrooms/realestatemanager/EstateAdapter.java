@@ -97,6 +97,9 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     intent.putExtra("estateYear", currentItem.getEstateYear());
                     intent.putExtra("estateMonth", currentItem.getEstateMonth());
                     intent.putExtra("estateDay", currentItem.getEstateDay());
+                    intent.putExtra("estateEntryDay", currentItem.getEstateEntryDay());
+                    intent.putExtra("estateEntryMonth", currentItem.getEstateEntryMonth());
+                    intent.putExtra("estateEntryYear", currentItem.getEstateEntryYear());
                     intent.putExtra("estateSeller", currentItem.getEstateSeller());
                     intent.putExtra("estateId", position);
 

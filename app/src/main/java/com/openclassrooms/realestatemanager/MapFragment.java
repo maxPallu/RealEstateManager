@@ -138,6 +138,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         intent.putExtra("estateYear", item.getEstateYear());
                         intent.putExtra("estateMonth", item.getEstateMonth());
                         intent.putExtra("estateDay", item.getEstateDay());
+                        intent.putExtra("estateEntryYear", item.getEstateEntryYear());
+                        intent.putExtra("estateEntryMonth", item.getEstateEntryMonth());
+                        intent.putExtra("estateEntryDay", item.getEstateEntryDay());
                         intent.putExtra("estateSeller", item.getEstateSeller());
                         intent.putExtra("estateId", estateId);
                         startActivity(intent);

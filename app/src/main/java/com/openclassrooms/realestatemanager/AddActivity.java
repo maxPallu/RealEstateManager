@@ -40,6 +40,8 @@ import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,13 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private int day;
     private int month;
     private int year;
+    private int entryYear;
+    private int entryMonth;
+    private int entryDay;
+
     private TextView date;
+    private TextView entryDate;
+    private int picker = 0;
 
     private static final int PERMISSION_CODE = 1000;
     private static int selectType = 0;
@@ -90,6 +98,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         viewPhoto = findViewById(R.id.viewPhoto);
         galleryPhoto = findViewById(R.id.buttonGallery);
         date = findViewById(R.id.displayDate);
+        entryDate = findViewById(R.id.displayEntry);
 
         description = findViewById(R.id.textDescription);
 
@@ -193,7 +202,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 int room = Integer.parseInt(numberRoom);
 
                 item = new EstateItem(type, intPrice,
-                        intSurface, room, city.getText().toString(), adress.getText().toString(), year, month, day, sellerName);
+                        intSurface, room, city.getText().toString(), adress.getText().toString(), entryYear, entryMonth, entryDay,year, month, day, sellerName);
 
                 item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());
@@ -207,16 +216,30 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     }
 
     public void showDatePickerDialog(View v) {
+        picker = 0;
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    public void showEntryDatePickerDialog(View v) {
+        picker = 1;
+        DialogFragment fragmentEntry = new EntryDatePickerFragment();
+        fragmentEntry.show(getSupportFragmentManager(), "entryDatePicker");
+    }
+
     @Override
     public void onDateSet(DatePicker datePicker, int y, int m, int dayOfMonth) {
-        year = y;
-        month = m+1;
-        day = dayOfMonth;
-        date.setText(day+"/"+month+"/"+year);
+        if(picker == 0) {
+            year = y;
+            month = m+1;
+            day = dayOfMonth;
+            date.setText(day+"/"+month+"/"+year);
+        } else if (picker == 1) {
+            entryYear = y;
+            entryMonth = m+1;
+            entryDay = dayOfMonth;
+            entryDate.setText(entryDay+"/"+entryMonth+"/"+entryYear);
+        }
     }
 
     private void openCamera() {

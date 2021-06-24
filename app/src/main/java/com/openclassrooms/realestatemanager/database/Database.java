@@ -52,6 +52,9 @@ public abstract class Database extends RoomDatabase {
                 contentValues.put("estateYear", 2020);
                 contentValues.put("estateMonth", 10);
                 contentValues.put("estateDay", 25);
+                contentValues.put("estateEntryDay", 15);
+                contentValues.put("estateEntryMonth", 8);
+                contentValues.put("estateEntryYear", 2020);
                 contentValues.put("estateCity", "Los Angeles");
                 contentValues.put("estatePictureUri", "https://thumbs.dreamstime.com/b/berlin-headquarters-deutsche-bahn-potsdamer-platz-56075878.jpg");
 

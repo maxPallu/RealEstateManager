@@ -172,7 +172,8 @@
             app:layout_constraintTop_toBottomOf="@id/estateSize"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="55dp"/>
+            android:layout_marginTop="55dp"
+            app:tint="#707070"/>
 
         <TextView
             android:id="@+id/entryTitle"

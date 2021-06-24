@@ -233,13 +233,45 @@
             android:hint="Adress"/>
 
         <TextView
-            android:id="@+id/textSale"
+            android:id="@+id/textEntry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textAdress"
-            android:text="Sale Date : "
+            android:text="Entry Date : "
             android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"/>
+
+        <ImageButton
+            android:id="@+id/entryButton"
+            android:src="@drawable/ic_baseline_date_range_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/textAdress"
+            app:layout_constraintStart_toEndOf="@+id/textSale"
+            android:layout_marginTop="25dp"
+            android:onClick="showEntryDatePickerDialog"
+            android:text="Select a date"
+            android:layout_marginStart="25dp"/>
+
+        <TextView
+            android:id="@+id/displayEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/dateButton"
+            app:layout_constraintTop_toBottomOf="@+id/textAdress"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/textSale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textEntry"
+            android:text="Sale Date : "
+            android:layout_marginTop="55dp"
             android:layout_marginStart="25dp"/>
 
         <ImageButton
@@ -247,7 +279,7 @@
             android:src="@drawable/ic_baseline_date_range_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/textAdress"
+            app:layout_constraintTop_toBottomOf="@+id/entryButton"
             app:layout_constraintStart_toEndOf="@+id/textSale"
             android:layout_marginTop="25dp"
             android:onClick="showDatePickerDialog"
@@ -258,10 +290,10 @@
             android:id="@+id/displayDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@+id/dateButton"
-            app:layout_constraintTop_toBottomOf="@+id/textAdress"
+            app:layout_constraintStart_toEndOf="@+id/entryButton"
+            app:layout_constraintTop_toBottomOf="@+id/textEntry"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="55dp"
             android:textStyle="bold"/>
 
         <TextView
