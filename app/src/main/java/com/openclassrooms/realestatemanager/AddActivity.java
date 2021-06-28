@@ -54,6 +54,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private TextInputEditText city;
     private String numberRoom;
     private String sellerName;
+    private String available;
     private TextInputLayout description;
     private TextInputEditText adress;
     private Button mTakePhoto;
@@ -93,6 +94,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         Spinner typeSpinner = findViewById(R.id.spinnerType);
         Spinner roomSpinner = findViewById(R.id.spinnerRoom);
         Spinner sellerSpinner = findViewById(R.id.spinnerSeller);
+        Spinner availableSpinner = findViewById(R.id.spinnerAvailable);
         Button add = findViewById(R.id.addButton);
         mTakePhoto = findViewById(R.id.buttonCamera);
         viewPhoto = findViewById(R.id.viewPhoto);
@@ -159,13 +161,16 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type));
         ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.number));
         ArrayAdapter<String> sellerAdapter = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sellers));
+        ArrayAdapter<String> availableAdapter = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.available));
 
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sellerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        availableAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(typeAdapter);
         roomSpinner.setAdapter(roomAdapter);
         sellerSpinner.setAdapter(sellerAdapter);
+        availableSpinner.setAdapter(availableAdapter);
 
         typeSpinner.setOnItemSelectedListener(this);
         roomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -190,6 +195,17 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
             }
         });
+        availableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                available = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,7 +218,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 int room = Integer.parseInt(numberRoom);
 
                 item = new EstateItem(type, intPrice,
-                        intSurface, room, city.getText().toString(), adress.getText().toString(), entryYear, entryMonth, entryDay,year, month, day, sellerName);
+                        intSurface, room, city.getText().toString(), adress.getText().toString(), entryYear, entryMonth, entryDay,year, month, day, sellerName, available);
 
                 item.setEstatePictureUri(image_uri.toString());
                 item.setEstateDescription(description.getEditText().getText().toString());

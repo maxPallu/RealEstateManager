@@ -231,16 +231,6 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"/>
 
-        <Button
-            android:id="@+id/editButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/editCityText"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="85dp"
-            android:layout_marginStart="155dp"
-            android:text="Edit"/>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editTextAdress"
             android:layout_width="323dp"
@@ -259,6 +249,119 @@
                 android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textEditEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextAdress"
+            android:text="Entry Date : "
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="25dp"/>
+
+        <ImageButton
+            android:id="@+id/editEntryButton"
+            android:src="@drawable/ic_baseline_date_range_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/editTextAdress"
+            app:layout_constraintStart_toEndOf="@+id/editTextSale"
+            android:layout_marginTop="22dp"
+            android:onClick="showEntryDatePickerDialog"
+            android:text="Select a date"
+            android:layout_marginStart="25dp"/>
+
+        <TextView
+            android:id="@+id/editDisplayEntry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/editDateButton"
+            app:layout_constraintTop_toBottomOf="@+id/editTextAdress"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/editTextAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/editDisplayEntry"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Is the estate sold?"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"/>
+
+        <Spinner
+            android:id="@+id/editSpinnerAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toEndOf="@+id/editTextAvailable"
+            app:layout_constraintTop_toBottomOf="@+id/editEntryButton" />
+
+        <TextView
+            android:id="@+id/editTextSale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editSpinnerAvailable"
+            android:text="Sale Date : "
+            android:layout_marginTop="55dp"
+            android:layout_marginStart="25dp"/>
+
+        <ImageButton
+            android:id="@+id/editDateButton"
+            android:src="@drawable/ic_baseline_date_range_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/editSpinnerAvailable"
+            app:layout_constraintStart_toEndOf="@+id/editTextSale"
+            android:layout_marginTop="35dp"
+            android:onClick="showDatePickerDialog"
+            android:text="Select a date"
+            android:layout_marginStart="25dp"/>
+
+        <TextView
+            android:id="@+id/editDisplayDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/editEntryButton"
+            app:layout_constraintTop_toBottomOf="@+id/editSpinnerAvailable"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="55dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/editAddSeller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="35dp"
+            android:text="Seller's name : "
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDateButton" />
+
+        <Spinner
+            android:id="@+id/editSpinnerSeller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toEndOf="@+id/editAddSeller"
+            app:layout_constraintTop_toBottomOf="@+id/editDateButton" />
+
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/editAddSeller"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="85dp"
+            android:layout_marginStart="155dp"
+            android:text="Edit"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

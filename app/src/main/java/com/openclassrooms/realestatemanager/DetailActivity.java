@@ -54,6 +54,8 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private String estateAdress;
     private String estateDescription;
     private String estateSeller;
+    private String estateAvailable;
+    private String estateType;
 
     private ItemViewModel itemViewModel;
 
@@ -92,6 +94,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         Intent intent = getIntent();
 
         int estatePrice = intent.getIntExtra("estatePrice", 0);
+        estateType = intent.getStringExtra("estateType");
         estateId = intent.getIntExtra("estateId", 0);
         estateSurface = intent.getIntExtra("estateSurface", 0);
         estateRoom = intent.getIntExtra("estateRoom", 0);
@@ -106,6 +109,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         int estateEntryYear = intent.getIntExtra("estateEntryYear", 0);
         int estateEntryMonth = intent.getIntExtra("estateEntryMonth", 0);
         int estateEntryDay = intent.getIntExtra("estateEntryDay", 0);
+        estateAvailable = intent.getStringExtra("estateAvailable");
 
         String textSurface = String.valueOf(estateSurface);
         String textRoom = String.valueOf(estateRoom);
@@ -115,7 +119,12 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailCity.setText(estateCity);
         detailAdress.setText(estateAdress);
         detailDescription.setText(estateDescription);
-        date.setText(estateDay+"/"+estateMonth+"/"+estateYear);
+
+        if(estateAvailable.contains("Sold")) {
+            date.setText(estateDay+"/"+estateMonth+"/"+estateYear);
+        } else {
+            date.setText("Still available");
+        }
         detailEntry.setText(estateEntryDay+"/"+estateEntryMonth+"/"+estateEntryYear);
         detailSeller.setText(estateSeller);
 
@@ -141,11 +150,20 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), EditActivity.class);
                 intent.putExtra("estateCity", estateCity);
+                intent.putExtra("estateType", estateType);
                 intent.putExtra("estateDescription", estateDescription);
                 intent.putExtra("estateAdress", estateAdress);
                 intent.putExtra("estateRoom", estateRoom);
                 intent.putExtra("estateSurface", estateSurface);
                 intent.putExtra("estatePrice", estatePrice);
+                intent.putExtra("estateYear", estateYear);
+                intent.putExtra("estateMonth", estateMonth);
+                intent.putExtra("estateDay", estateDay);
+                intent.putExtra("estateEntryDay", estateEntryDay);
+                intent.putExtra("estateEntryMonth", estateEntryMonth);
+                intent.putExtra("estateEntryYear", estateEntryYear);
+                intent.putExtra("estateSeller", estateSeller);
+                intent.putExtra("estateAvailable", estateAvailable);
                 intent.putExtra("estateId", estateId);
                 startActivity(intent);
             }

@@ -27,9 +27,10 @@ public class EstateItem {
     private int estateEntryDay;
     private int estateEntryMonth;
     private int estateEntryYear;
+    private String estateAvailable;
 
     public EstateItem(String type, int price, int surface, int numberRoom, String city, String adress, int entryYear, int entryMonth,
-                      int entryDay, int year, int month, int day, String seller) {
+                      int entryDay, int year, int month, int day, String seller, String available) {
         estateType = type;
         estatePrice = price;
         estateSurface = surface;
@@ -43,6 +44,7 @@ public class EstateItem {
         estateEntryDay = entryDay;
         estateEntryMonth = entryMonth;
         estateEntryYear = entryYear;
+        estateAvailable = available;
     }
 
     public EstateItem(long id, String type, int price, int surface, int numberRoom, String city, String adress) {
@@ -66,6 +68,14 @@ public class EstateItem {
 
     public EstateItem() {
 
+    }
+
+    public String getEstateAvailable() {
+        return estateAvailable;
+    }
+
+    public void setEstateAvailable(String estateAvailable) {
+        this.estateAvailable = estateAvailable;
     }
 
     public int getEstateEntryDay() {
