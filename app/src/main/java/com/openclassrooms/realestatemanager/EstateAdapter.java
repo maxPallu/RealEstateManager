@@ -79,7 +79,17 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
                     bundle.putInt("estateRoom", currentItem.getEstateRoom());
                     bundle.putInt("estateSurface", currentItem.getEstateSurface());
                     bundle.putString("estateAdress", currentItem.getEstateAdress());
-                    bundle.putString("pictureUri", currentItem.getEstatePictureUri());
+                    bundle.putString("estatePicture", currentItem.getEstatePictureUri());
+                    bundle.putString("estateDescription", currentItem.getEstateDescription());
+                    bundle.putInt("estateYear", currentItem.getEstateYear());
+                    bundle.putInt("estateMonth", currentItem.getEstateMonth());
+                    bundle.putInt("estateDay", currentItem.getEstateDay());
+                    bundle.putInt("estateEntryDay", currentItem.getEstateEntryDay());
+                    bundle.putInt("estateEntryMonth", currentItem.getEstateEntryMonth());
+                    bundle.putInt("estateEntryYear", currentItem.getEstateEntryYear());
+                    bundle.putString("estateSeller", currentItem.getEstateSeller());
+                    bundle.putString("estateAvailable", currentItem.getEstateAvailable());
+                    bundle.putInt("estateId", position);
                     createFragment(view.getContext(), bundle);
 
                 } else {

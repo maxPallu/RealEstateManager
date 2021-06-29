@@ -205,7 +205,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MainFragment()).commit();
                 break;
             case R.id.menu_map:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MapFragment()).commit();
+                boolean is_tablet = getResources().getBoolean(R.bool.is_tablet);
+                if(is_tablet) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_detail, new MapFragment()).commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MapFragment()).commit();
+                }
                 break;
             case R.id.loan_menu:
                 Intent intent = new Intent(this, MortgageActivity.class);

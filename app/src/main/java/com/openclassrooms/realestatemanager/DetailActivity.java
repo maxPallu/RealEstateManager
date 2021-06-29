@@ -78,7 +78,6 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailRoom = findViewById(R.id.numberRoomText);
         detailCity = findViewById(R.id.locationCity);
         detailAdress = findViewById(R.id.locationAdress);
-        detailPicture = (ImageView) findViewById(R.id.pictureView);
         detailDescription = findViewById(R.id.detailDescription);
         detailSeller = findViewById(R.id.sellerText);
         back = findViewById(R.id.back);

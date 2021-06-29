@@ -5,10 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
@@ -52,6 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private ArrayList<EstateItem> mEstateItems = new ArrayList<>();
     private ItemViewModel itemViewModel;
+    private DetailFragment detailFragment;
     long estateId;
 
     @Nullable
@@ -122,9 +126,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             public void onInfoWindowClick(Marker marker) {
                 int estateId = Integer.parseInt(marker.getTag().toString());
 
-                for(EstateItem item: mEstateItems) {
-                    String city = String.valueOf(item.getEstateCity());
-                    if (item.getEstateId() == estateId) {
+                boolean is_tablet = getResources().getBoolean(R.bool.is_tablet);
+
+                if(is_tablet) {
+                    for(EstateItem item: mEstateItems) {
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
                         intent.putExtra("estatePrice", item.getEstatePrice());
                         intent.putExtra("estateType", marker.getTitle());
@@ -142,8 +147,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         intent.putExtra("estateEntryMonth", item.getEstateEntryMonth());
                         intent.putExtra("estateEntryDay", item.getEstateEntryDay());
                         intent.putExtra("estateSeller", item.getEstateSeller());
+                        intent.putExtra("estateAvailable", item.getEstateAvailable());
                         intent.putExtra("estateId", estateId);
                         startActivity(intent);
+                    }
+                } else {
+                    for(EstateItem item: mEstateItems) {
+                        String city = String.valueOf(item.getEstateCity());
+                        if (item.getEstateId() == estateId) {
+                            Intent intent = new Intent(getActivity(), DetailActivity.class);
+                            intent.putExtra("estatePrice", item.getEstatePrice());
+                            intent.putExtra("estateType", marker.getTitle());
+                            intent.putExtra("estateCity", item.getEstateCity());
+                            intent.putExtra("estatePrice", item.getEstatePrice());
+                            intent.putExtra("estateRoom", item.getEstateRoom());
+                            intent.putExtra("estateSurface", item.getEstateSurface());
+                            intent.putExtra("estateAdress", item.getEstateAdress());
+                            intent.putExtra("estatePicture", item.getEstatePictureUri());
+                            intent.putExtra("estateDescription", item.getEstateDescription());
+                            intent.putExtra("estateYear", item.getEstateYear());
+                            intent.putExtra("estateMonth", item.getEstateMonth());
+                            intent.putExtra("estateDay", item.getEstateDay());
+                            intent.putExtra("estateEntryYear", item.getEstateEntryYear());
+                            intent.putExtra("estateEntryMonth", item.getEstateEntryMonth());
+                            intent.putExtra("estateEntryDay", item.getEstateEntryDay());
+                            intent.putExtra("estateSeller", item.getEstateSeller());
+                            intent.putExtra("estateAvailable", item.getEstateAvailable());
+                            intent.putExtra("estateId", estateId);
+                            startActivity(intent);
+                        }
                     }
                 }
             }
@@ -180,6 +212,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     .position(latLng)
                     .title(item.getEstateType()));
             marker.setTag(item.getEstateId());
+        }
+    }
+
+    private void createFragment(Context context, Bundle bundle) {
+        DetailFragment detailFragment = new DetailFragment();
+
+        detailFragment = (DetailFragment) ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag("DetailFragment");
+
+        if(detailFragment != null) {
+            detailFragment.setArguments(bundle);
+            detailFragment.onResume();
+        }
+
+        if(detailFragment == null && ((FragmentActivity) context).findViewById(R.id.frame_layout_detail) != null) {
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(bundle);
+            FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+
+            ft.replace(R.id.map, fragment).commit();
         }
     }
 
