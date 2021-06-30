@@ -130,26 +130,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
                 if(is_tablet) {
                     for(EstateItem item: mEstateItems) {
-                        Intent intent = new Intent(getActivity(), DetailActivity.class);
-                        intent.putExtra("estatePrice", item.getEstatePrice());
-                        intent.putExtra("estateType", marker.getTitle());
-                        intent.putExtra("estateCity", item.getEstateCity());
-                        intent.putExtra("estatePrice", item.getEstatePrice());
-                        intent.putExtra("estateRoom", item.getEstateRoom());
-                        intent.putExtra("estateSurface", item.getEstateSurface());
-                        intent.putExtra("estateAdress", item.getEstateAdress());
-                        intent.putExtra("estatePicture", item.getEstatePictureUri());
-                        intent.putExtra("estateDescription", item.getEstateDescription());
-                        intent.putExtra("estateYear", item.getEstateYear());
-                        intent.putExtra("estateMonth", item.getEstateMonth());
-                        intent.putExtra("estateDay", item.getEstateDay());
-                        intent.putExtra("estateEntryYear", item.getEstateEntryYear());
-                        intent.putExtra("estateEntryMonth", item.getEstateEntryMonth());
-                        intent.putExtra("estateEntryDay", item.getEstateEntryDay());
-                        intent.putExtra("estateSeller", item.getEstateSeller());
-                        intent.putExtra("estateAvailable", item.getEstateAvailable());
-                        intent.putExtra("estateId", estateId);
-                        startActivity(intent);
+                        if(item.getEstateId() == estateId) {
+                            Intent intent = new Intent(getActivity(), DetailActivity.class);
+                            intent.putExtra("estatePrice", item.getEstatePrice());
+                            intent.putExtra("estateType", marker.getTitle());
+                            intent.putExtra("estateCity", item.getEstateCity());
+                            intent.putExtra("estatePrice", item.getEstatePrice());
+                            intent.putExtra("estateRoom", item.getEstateRoom());
+                            intent.putExtra("estateSurface", item.getEstateSurface());
+                            intent.putExtra("estateAdress", item.getEstateAdress());
+                            intent.putExtra("estatePicture", item.getEstatePictureUri());
+                            intent.putExtra("estateDescription", item.getEstateDescription());
+                            intent.putExtra("estateYear", item.getEstateYear());
+                            intent.putExtra("estateMonth", item.getEstateMonth());
+                            intent.putExtra("estateDay", item.getEstateDay());
+                            intent.putExtra("estateEntryYear", item.getEstateEntryYear());
+                            intent.putExtra("estateEntryMonth", item.getEstateEntryMonth());
+                            intent.putExtra("estateEntryDay", item.getEstateEntryDay());
+                            intent.putExtra("estateSeller", item.getEstateSeller());
+                            intent.putExtra("estateAvailable", item.getEstateAvailable());
+                            intent.putExtra("estateId", estateId);
+                            startActivity(intent);
+                        }
                     }
                 } else {
                     for(EstateItem item: mEstateItems) {
