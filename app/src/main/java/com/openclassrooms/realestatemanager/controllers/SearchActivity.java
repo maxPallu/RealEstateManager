@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.openclassrooms.realestatemanager.R;
 
 public class SearchActivity extends AppCompatActivity {
 

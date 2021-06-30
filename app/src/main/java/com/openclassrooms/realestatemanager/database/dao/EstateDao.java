@@ -8,7 +8,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.openclassrooms.realestatemanager.EstateItem;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 
 import java.util.List;
 

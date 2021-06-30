@@ -9,11 +9,9 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.openclassrooms.realestatemanager.EstateItem;
-import com.openclassrooms.realestatemanager.ItemRawDao;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
+import com.openclassrooms.realestatemanager.database.dao.ItemRawDao;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
-
-import javax.security.auth.callback.Callback;
 
 @androidx.room.Database(entities = EstateItem.class, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {

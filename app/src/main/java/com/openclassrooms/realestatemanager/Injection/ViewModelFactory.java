@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.openclassrooms.realestatemanager.ItemViewModel;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
 import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
 
 import java.util.concurrent.Executor;

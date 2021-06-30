@@ -35,21 +35,21 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".MortgageActivity" />
-        <activity android:name=".EditActivity" />
+        <activity android:name=".controllers.SearchActivity" />
+        <activity android:name=".controllers.MortgageActivity" />
+        <activity android:name=".controllers.EditActivity" />
 
         <provider
             android:name=".provider.EstateContentProvider"
             android:authorities="com.openclassrooms.realestatemanager.provider"
             android:exported="true" />
 
-        <activity android:name=".AddActivity" />
+        <activity android:name=".controllers.AddActivity" />
         <activity
-            android:name=".DetailActivity"
+            android:name=".controllers.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".controllers.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

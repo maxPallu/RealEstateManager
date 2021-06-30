@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.repositories;
 
 import androidx.lifecycle.LiveData;
 
-import com.openclassrooms.realestatemanager.EstateItem;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 import com.openclassrooms.realestatemanager.database.dao.EstateDao;
 
 import java.util.List;

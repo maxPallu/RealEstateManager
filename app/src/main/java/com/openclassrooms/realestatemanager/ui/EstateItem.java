@@ -1,8 +1,6 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.ui;
 
 import android.content.ContentValues;
-import android.net.Uri;
-import android.widget.ImageView;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

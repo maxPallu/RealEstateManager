@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.service;
 
 import android.content.Context;
 
-import com.openclassrooms.realestatemanager.EstateItem;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 
 import java.util.List;
 

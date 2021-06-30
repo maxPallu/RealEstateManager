@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.openclassrooms.realestatemanager.R;
 
 import java.text.DecimalFormat;
 

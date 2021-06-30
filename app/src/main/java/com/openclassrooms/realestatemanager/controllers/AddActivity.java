@@ -1,8 +1,6 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -12,15 +10,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,13 +29,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.openclassrooms.realestatemanager.DI.DI;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

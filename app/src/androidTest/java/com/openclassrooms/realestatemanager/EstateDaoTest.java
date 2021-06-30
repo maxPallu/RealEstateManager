@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.openclassrooms.realestatemanager.database.Database;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 
 import org.junit.After;
 import org.junit.Before;

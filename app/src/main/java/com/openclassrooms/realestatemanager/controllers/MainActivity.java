@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,18 +18,20 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Dao;
-import androidx.room.RawQuery;
 import androidx.sqlite.db.SimpleSQLiteQuery;
-import androidx.sqlite.db.SupportSQLiteQuery;
 
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.openclassrooms.realestatemanager.ui.EstateAdapter;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.database.dao.ItemRawDao;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.Database;
 
 import java.util.ArrayList;

@@ -1,15 +1,14 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.ui;
 
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.openclassrooms.realestatemanager.Injection.Injection;
-import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
 import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 
 import java.util.List;
 import java.util.concurrent.Executor;

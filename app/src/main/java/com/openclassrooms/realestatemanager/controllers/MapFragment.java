@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +14,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,10 +35,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.openclassrooms.realestatemanager.DI.DI;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.database.Database;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Result;
 import com.openclassrooms.realestatemanager.util.ApiCalls;
 import com.openclassrooms.realestatemanager.util.PermissionUtils;

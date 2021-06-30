@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +18,11 @@ import android.widget.Spinner;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.DI.DI;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
 
 import java.util.ArrayList;

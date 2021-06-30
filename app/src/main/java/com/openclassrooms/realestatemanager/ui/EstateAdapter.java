@@ -1,8 +1,7 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -16,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.controllers.DetailActivity;
+import com.openclassrooms.realestatemanager.controllers.DetailFragment;
 
 import java.util.List;
 

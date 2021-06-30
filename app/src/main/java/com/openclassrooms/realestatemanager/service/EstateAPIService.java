@@ -2,8 +2,8 @@ package com.openclassrooms.realestatemanager.service;
 
 import android.content.Context;
 
-import com.openclassrooms.realestatemanager.EstateItem;
-import com.openclassrooms.realestatemanager.ItemViewModel;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
 import com.openclassrooms.realestatemanager.repositories.ItemDataRepository;
 
 import java.util.ArrayList;
