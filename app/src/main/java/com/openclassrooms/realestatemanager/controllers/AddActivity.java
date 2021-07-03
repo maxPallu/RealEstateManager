@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.controllers;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.Nullable;
 import com.google.android.material.textfield.TextInputEditText;
@@ -10,6 +9,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -37,7 +37,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
@@ -49,9 +49,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private String sellerName;
     private String available;
     private TextInputLayout description;
-    private TextInputEditText adress;
-    private Button mTakePhoto;
-    private Button galleryPhoto;
+    private TextInputEditText address;
     private ImageView viewPhoto;
     private int day;
     private int month;
@@ -59,6 +57,13 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private int entryYear;
     private int entryMonth;
     private int entryDay;
+    private Spinner typeSpinner;
+    private Spinner roomSpinner;
+    private Spinner sellerSpinner;
+    private Spinner availableSpinner;
+    private Button add;
+    private Button mTakePhoto;
+    private Button galleryPhoto;
 
     private TextView date;
     private TextView entryDate;
@@ -75,7 +80,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private ItemViewModel itemViewModel;
     private EstateItem item;
 
-    private ArrayList<EstateItem> mItems = new ArrayList<>();
+    private final ArrayList<EstateItem> mItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +89,148 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
         mApi = DI.getEstateApiService();
 
-        Spinner typeSpinner = findViewById(R.id.spinnerType);
-        Spinner roomSpinner = findViewById(R.id.spinnerRoom);
-        Spinner sellerSpinner = findViewById(R.id.spinnerSeller);
-        Spinner availableSpinner = findViewById(R.id.spinnerAvailable);
-        Button add = findViewById(R.id.addButton);
+        initView();
+
+        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
+        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+        this.itemViewModel.getAllItems().observe(this, estateItems -> {
+            mItems.clear();
+            assert estateItems != null;
+            mItems.addAll(estateItems);
+        });
+
+        configureSpinners();
+
+        buttonsClickListeners();
+
+        addItem();
+    }
+
+    public void showDatePickerDialog(View v) {
+        picker = 0;
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void showEntryDatePickerDialog(View v) {
+        picker = 1;
+        DialogFragment fragmentEntry = new EntryDatePickerFragment();
+        fragmentEntry.show(getSupportFragmentManager(), "entryDatePicker");
+    }
+
+    private void buttonsClickListeners() {
+        mTakePhoto.setOnClickListener(view -> {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+                        checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permission, PERMISSION_CODE);
+                } else {
+                    selectType = 1;
+                    openCamera();
+                }
+            } else {
+                selectType = 1;
+                openCamera();
+            }
+        });
+
+        galleryPhoto.setOnClickListener(v -> {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_DENIED &&
+                        checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_DENIED) {
+                    selectType = 2;
+                    pickImageFromGallery();
+                } else {
+                    String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permission, PERMISSION_CODE);
+                }
+            } else {
+                selectType = 2;
+                pickImageFromGallery();
+            }
+        });
+    }
+
+    private void addItem() {
+        add.setOnClickListener(view -> {
+
+            String getSurface = Objects.requireNonNull(surface.getEditText()).getText().toString();
+            int intSurface = Integer.parseInt(getSurface);
+            String getPrice = Objects.requireNonNull(price.getEditText()).getText().toString();
+            int intPrice = Integer.parseInt(getPrice);
+            int room = Integer.parseInt(numberRoom);
+
+            item = new EstateItem(type, intPrice,
+                    intSurface, room, Objects.requireNonNull(city.getText()).toString(), Objects.requireNonNull(address.getText()).toString(), entryYear, entryMonth, entryDay,year, month, day, sellerName, available);
+
+            item.setEstatePictureUri(image_uri.toString());
+            item.setEstateDescription(Objects.requireNonNull(description.getEditText()).getText().toString());
+
+            mApi.createEstate(item);
+            itemViewModel.createItem(item);
+
+            finish();
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onDateSet(DatePicker datePicker, int y, int m, int dayOfMonth) {
+        if(picker == 0) {
+            year = y;
+            month = m+1;
+            day = dayOfMonth;
+            date.setText(day+"/"+month+"/"+year);
+        } else if (picker == 1) {
+            entryYear = y;
+            entryMonth = m+1;
+            entryDay = dayOfMonth;
+            entryDate.setText(entryDay+"/"+entryMonth+"/"+entryYear);
+        }
+    }
+
+    private void openCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
+    }
+
+    private void pickImageFromGallery() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the gallery");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (selectType == 1) {
+                    openCamera();
+                } else if (selectType == 2) {
+                    pickImageFromGallery();
+                }
+            } else {
+                Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void initView() {
+
+        typeSpinner = findViewById(R.id.spinnerType);
+        roomSpinner = findViewById(R.id.spinnerRoom);
+        sellerSpinner = findViewById(R.id.spinnerSeller);
+        availableSpinner = findViewById(R.id.spinnerAvailable);
+        add = findViewById(R.id.addButton);
         mTakePhoto = findViewById(R.id.buttonCamera);
         viewPhoto = findViewById(R.id.viewPhoto);
         galleryPhoto = findViewById(R.id.buttonGallery);
@@ -100,59 +242,13 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         price = findViewById(R.id.textPrice);
         surface = findViewById(R.id.textSurface);
         city = findViewById(R.id.cityText);
-        adress = findViewById(R.id.textAdress);
+        address = findViewById(R.id.textAdress);
+    }
 
-        ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
-        this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
-            @Override
-            public void onChanged(@Nullable List<EstateItem> estateItems) {
-                mItems.clear();
-                mItems.addAll(estateItems);
-            }
-        });
-
-        mTakePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
-                            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                        requestPermissions(permission, PERMISSION_CODE);
-                    } else {
-                        selectType = 1;
-                        openCamera();
-                    }
-                } else {
-                    selectType = 1;
-                    openCamera();
-                }
-            }
-        });
-
-        galleryPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
-                            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                        String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                        requestPermissions(permission, PERMISSION_CODE);
-                    } else {
-                        selectType = 2;
-                        pickImageFromGallery();
-                    }
-                } else {
-                    selectType = 2;
-                    pickImageFromGallery();
-                }
-            }
-        });
-
-
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type));
-        ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.number));
+    private void configureSpinners() {
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type));
+        ArrayAdapter<String> roomAdapter;
+        roomAdapter = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.number));
         ArrayAdapter<String> sellerAdapter = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sellers));
         ArrayAdapter<String> availableAdapter = new ArrayAdapter<>(AddActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.available));
 
@@ -199,91 +295,6 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
             }
         });
-
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String getSurface = surface.getEditText().getText().toString();
-                int intSurface = Integer.parseInt(getSurface);
-                String getPrice = price.getEditText().getText().toString();
-                int intPrice = Integer.parseInt(getPrice);
-                int room = Integer.parseInt(numberRoom);
-
-                item = new EstateItem(type, intPrice,
-                        intSurface, room, city.getText().toString(), adress.getText().toString(), entryYear, entryMonth, entryDay,year, month, day, sellerName, available);
-
-                item.setEstatePictureUri(image_uri.toString());
-                item.setEstateDescription(description.getEditText().getText().toString());
-
-                mApi.createEstate(item);
-                itemViewModel.createItem(item);
-
-                finish();
-            }
-        });
-    }
-
-    public void showDatePickerDialog(View v) {
-        picker = 0;
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    public void showEntryDatePickerDialog(View v) {
-        picker = 1;
-        DialogFragment fragmentEntry = new EntryDatePickerFragment();
-        fragmentEntry.show(getSupportFragmentManager(), "entryDatePicker");
-    }
-
-    @Override
-    public void onDateSet(DatePicker datePicker, int y, int m, int dayOfMonth) {
-        if(picker == 0) {
-            year = y;
-            month = m+1;
-            day = dayOfMonth;
-            date.setText(day+"/"+month+"/"+year);
-        } else if (picker == 1) {
-            entryYear = y;
-            entryMonth = m+1;
-            entryDay = dayOfMonth;
-            entryDate.setText(entryDay+"/"+entryMonth+"/"+entryYear);
-        }
-    }
-
-    private void openCamera() {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "New Picture");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
-        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
-    }
-
-    private void pickImageFromGallery() {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "New Picture");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From the gallery");
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_CODE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(selectType == 1) {
-                        openCamera();
-                    } else if(selectType == 2) {
-                        pickImageFromGallery();
-                    }
-                } else {
-                    Toast.makeText(this, "Permission denied...", Toast.LENGTH_SHORT).show();
-                }
-        }
     }
 
     @Override
@@ -292,6 +303,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         if (resultCode == RESULT_OK && selectType == 1) {
             viewPhoto.setImageURI(image_uri);
         } else if(resultCode == RESULT_OK && selectType == 2) {
+            assert data != null;
             image_uri = data.getData();
             viewPhoto.setImageURI(data.getData());
         }
@@ -299,8 +311,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String typeSelected = adapterView.getItemAtPosition(i).toString();
-        type = typeSelected;
+        type = adapterView.getItemAtPosition(i).toString();
     }
 
     @Override

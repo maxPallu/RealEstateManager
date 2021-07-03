@@ -1,54 +1,49 @@
 package com.openclassrooms.realestatemanager.controllers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import com.google.android.material.navigation.NavigationView;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-
-import com.openclassrooms.realestatemanager.ui.EstateAdapter;
-import com.openclassrooms.realestatemanager.ui.EstateItem;
+import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.database.dao.ItemRawDao;
-import com.openclassrooms.realestatemanager.ui.ItemViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.Database;
+import com.openclassrooms.realestatemanager.database.dao.ItemRawDao;
+import com.openclassrooms.realestatemanager.ui.EstateAdapter;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private Context mContext;
     private ArrayList<EstateItem> mEstates = new ArrayList<>();
-    private MainFragment mainFragment;
-    private DetailFragment detailFragment;
-    private ItemViewModel itemViewModel;
     private DrawerLayout drawer;
     private ItemRawDao itemRawDao;
+    private DetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +52,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
 
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
-        this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
-            @Override
-            public void onChanged(List<EstateItem> estateItems) {
-                mEstates.clear();
-                mEstates.addAll(estateItems);
-            }
+        ItemViewModel itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+        itemViewModel.getAllItems().observe(this, estateItems -> {
+            mEstates.clear();
+            mEstates.addAll(estateItems);
         });
 
         this.configureFragment();
@@ -75,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer = findViewById(R.id.activity_main_drawer_layout);
         NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
-        View headerLayout = navigationView.getHeaderView(0);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -88,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mContext = this.getApplicationContext();
 
         mRecyclerView = findViewById(R.id.recycler_view);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new EstateAdapter(mEstates);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -102,24 +93,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final MenuItem addItem = menu.findItem(R.id.menuAdd);
         final MenuItem searchItem = menu.findItem(R.id.menuSearch);
 
-        addItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Intent intent = new Intent(mContext, AddActivity.class);
-                startActivity(intent);
+        addItem.setOnMenuItemClickListener(menuItem -> {
+            Intent intent = new Intent(mContext, AddActivity.class);
+            startActivity(intent);
 
-                return false;
-            }
+            return false;
         });
 
-        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivityForResult(intent, 8);
+        searchItem.setOnMenuItemClickListener(menuItem -> {
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+            startActivityForResult(intent, 8);
 
-                return false;
-            }
+            return false;
         });
 
         return true;
@@ -127,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureFragment() {
 
-        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
+        MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
 
         if(mainFragment == null) {
 
@@ -139,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureDetailFragment() {
 
-        detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
+        DetailFragment detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_detail);
 
         if(detailFragment == null && findViewById(R.id.frame_layout_detail) != null) {
             detailFragment = new DetailFragment();
@@ -177,13 +162,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SimpleSQLiteQuery myQuery = new SimpleSQLiteQuery("SELECT * FROM EstateItem WHERE estateRoom >= "+minRoom+" AND estateRoom <= " +maxRoom+
                     " AND estatePrice >= "+minPrice+" AND estatePrice <= "+maxPrice+ " AND estateSurface >= "+minSurface+" AND estateSurface <= "+maxSurface);
             LiveData<List<EstateItem>> estateItems = itemRawDao.getItems(myQuery);
-            estateItems.observe(this, new Observer<List<EstateItem>>() {
-                @Override
-                public void onChanged(List<EstateItem> estateItems) {
-                    mEstates = (ArrayList<EstateItem>) estateItems;
-                    mAdapter = new EstateAdapter(mEstates);
-                    mRecyclerView.setAdapter(mAdapter);
-                }
+            estateItems.observe(this, estateItems1 -> {
+                mEstates = (ArrayList<EstateItem>) estateItems1;
+                mAdapter = new EstateAdapter(mEstates);
+                mRecyclerView.setAdapter(mAdapter);
             });
 
         }
@@ -200,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -209,9 +192,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_map:
                 boolean is_tablet = getResources().getBoolean(R.bool.is_tablet);
                 if(is_tablet) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_detail, new MapFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_detail, new MapFragment(detailFragment)).commit();
                 } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MapFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, new MapFragment(detailFragment)).commit();
                 }
                 break;
             case R.id.loan_menu:

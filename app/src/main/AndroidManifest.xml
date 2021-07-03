@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.openclassrooms.realestatemanager">
 
     <!--
@@ -37,7 +38,8 @@
 
         <activity android:name=".controllers.SearchActivity" />
         <activity android:name=".controllers.MortgageActivity" />
-        <activity android:name=".controllers.EditActivity" />
+        <activity android:name=".controllers.EditActivity"
+            tools:ignore="Instantiatable" />
 
         <provider
             android:name=".provider.EstateContentProvider"
@@ -50,7 +52,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".controllers.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -46,6 +46,7 @@ public class EstateContentProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         if(getContext() != null) {
+            assert contentValues != null;
             final long id = Database.getInstance(getContext()).estateDao().insertItem(EstateItem.fromContentValues(contentValues));
             if (id != 0) {
                 getContext().getContentResolver().notifyChange(uri, null);
@@ -69,6 +70,7 @@ public class EstateContentProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
         if(getContext() != null) {
+            assert contentValues != null;
             final int count = Database.getInstance(getContext()).estateDao().updateItem(EstateItem.fromContentValues(contentValues));
             getContext().getContentResolver().notifyChange(uri, null);
             return count;

@@ -1,10 +1,5 @@
 package com.openclassrooms.realestatemanager.controllers;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -15,46 +10,58 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.DI.DI;
-import com.openclassrooms.realestatemanager.ui.EstateItem;
 import com.openclassrooms.realestatemanager.Injection.Injection;
 import com.openclassrooms.realestatemanager.Injection.ViewModelFactory;
-import com.openclassrooms.realestatemanager.ui.ItemViewModel;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.service.EstateAPI;
+import com.openclassrooms.realestatemanager.ui.EstateItem;
+import com.openclassrooms.realestatemanager.ui.ItemViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Objects;
 
 public class EditActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private String type;
+    private final String type;
     private TextInputLayout price;
     private TextInputLayout surface;
     private TextInputLayout city;
     private int numberRoom;
-    private int numberSurface;
     private TextInputLayout description;
     private TextInputLayout adress;
-    private ImageView viewPhoto;
     private Spinner typeSpinner;
-    private Button edit;
     private int  position;
     private Spinner sellerSpinner;
     private Spinner availableSpinner;
-    private String uri;
     private String estateType;
 
     private EstateAPI mApi;
     private ItemViewModel itemViewModel;
-    private EstateItem item;
     private String getSeller;
     private String getAvailable;
+    private ImageView viewPhoto;
 
-    private ArrayList<EstateItem> mItems = new ArrayList<>();
+    private Spinner roomSpinner;
+    private Button edit;
+    private String getAdress;
+    private String getCity;
+    private String getDescription;
+    private int numberSurface;
+    private int getPrice;
+    private String uri;
+
+    private final ArrayList<EstateItem> mItems = new ArrayList<>();
+
+    public EditActivity(String type) {
+        this.type = type;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,70 +70,52 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mApi = DI.getEstateApiService();
 
-        typeSpinner = findViewById(R.id.editSpinnerType);
-        Spinner roomSpinner = findViewById(R.id.editSpinnerRoom);
-        sellerSpinner = findViewById(R.id.editSpinnerSeller);
-        availableSpinner = findViewById(R.id.editSpinnerAvailable);
-        edit = findViewById(R.id.editButton);
+        initView();
+        getDatas();
 
-        description = findViewById(R.id.editTextDescription);
-        price = findViewById(R.id.editTextPrice);
-        surface = findViewById(R.id.editTextSurface);
-        city = findViewById(R.id.editCityText);
-        adress = findViewById(R.id.editTextAdress);
-        viewPhoto = findViewById(R.id.editViewPhoto);
-
-        Intent intent = getIntent();
-        String getAdress = intent.getStringExtra("estateAdress");
-        estateType = intent.getStringExtra("estateType");
-        String getCity = intent.getStringExtra("estateCity");
-        String getDescription = intent.getStringExtra("estateDescription");
-        numberRoom = intent.getIntExtra("estateRoom", 0);
-        numberSurface = intent.getIntExtra("estateSurface", 0);
-        int getPrice = intent.getIntExtra("estatePrice", 0);
-        getSeller = intent.getStringExtra("estateSeller");
-        uri = intent.getStringExtra("estatePicture");
-        int estateYear = intent.getIntExtra("estateYear", 0);
-        int estateMonth = intent.getIntExtra("estateMonth", 0);
-        int estateDay = intent.getIntExtra("estateDay", 0);
-        int estateEntryYear = intent.getIntExtra("estateEntryYear", 0);
-        int estateEntryMonth = intent.getIntExtra("estateEntryMonth", 0);
-        int estateEntryDay = intent.getIntExtra("estateEntryDay", 0);
-        getAvailable = intent.getStringExtra("estateAvailable");
-        position = intent.getIntExtra("estateId", 0);
 
         Glide.with(this.getApplicationContext()).load(uri).into(viewPhoto);
 
-        price.getEditText().setText(String.valueOf(getPrice));
-        adress.getEditText().setText(getAdress);
-        city.getEditText().setText(getCity);
-        description.getEditText().setText(getDescription);
-        surface.getEditText().setText(String.valueOf(numberSurface));
+        Objects.requireNonNull(price.getEditText()).setText(String.valueOf(getPrice));
+        Objects.requireNonNull(adress.getEditText()).setText(getAdress);
+        Objects.requireNonNull(city.getEditText()).setText(getCity);
+        Objects.requireNonNull(description.getEditText()).setText(getDescription);
+        Objects.requireNonNull(surface.getEditText()).setText(String.valueOf(numberSurface));
 
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
         this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
-        this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
-            @Override
-            public void onChanged(@Nullable List<EstateItem> estateItems) {
-                mItems.clear();
-                mItems.addAll(estateItems);
-            }
+        this.itemViewModel.getAllItems().observe(this, estateItems -> {
+            mItems.clear();
+            mItems.addAll(estateItems);
         });
 
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<String>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type));
-        ArrayAdapter<String> roomAdapter = new ArrayAdapter<String>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.number));
-        ArrayAdapter<String> sellerAdapter = new ArrayAdapter<String>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sellers));
-        ArrayAdapter<String> availableAdapter = new ArrayAdapter<String>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.available));
+        configureSpinners();
 
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sellerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        availableAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(typeAdapter);
-        roomSpinner.setAdapter(roomAdapter);
-        sellerSpinner.setAdapter(sellerAdapter);
-        availableSpinner.setAdapter(availableAdapter);
+        itemSelectedListeners();
 
+        editItem();
+    }
+
+    private void editItem() {
+        edit.setOnClickListener(view -> {
+            String getSurface = Objects.requireNonNull(surface.getEditText()).toString();
+            int intSurface = Integer.parseInt(getSurface);
+            String getPrice1 = Objects.requireNonNull(price.getEditText()).toString();
+            int intPrice = Integer.parseInt(getPrice1);
+
+            EstateItem item = new EstateItem(position, type, intPrice,
+                    intSurface, numberRoom, Objects.requireNonNull(city.getEditText()).getText().toString(), Objects.requireNonNull(adress.getEditText()).getText().toString());
+
+            item.setEstateDescription(Objects.requireNonNull(description.getEditText()).getText().toString());
+
+            mApi.editEstate(item, getApplicationContext());
+            itemViewModel.updateItem(item, getApplicationContext());
+
+            finish();
+        });
+    }
+
+    private void itemSelectedListeners() {
         typeSpinner.setOnItemSelectedListener(this);
         roomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -144,13 +133,13 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Resources res = getResources();
-               String[] sellers = res.getStringArray(R.array.sellers);
-               ArrayList<String> sellerArray = new ArrayList<String>(Arrays.asList(sellers));
-               for(int j=0; j<sellerArray.size(); j++) {
-                   if(sellerArray.get(j).contains(getSeller)) {
-                       sellerSpinner.setSelection(j);
-                   }
-               }
+                String[] sellers = res.getStringArray(R.array.sellers);
+                ArrayList<String> sellerArray = new ArrayList<>(Arrays.asList(sellers));
+                for(int j=0; j<sellerArray.size(); j++) {
+                    if(sellerArray.get(j).contains(getSeller)) {
+                        sellerSpinner.setSelection(j);
+                    }
+                }
             }
 
             @Override
@@ -174,34 +163,59 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
+    }
 
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String getSurface = surface.getEditText().toString();
-                int intSurface = Integer.parseInt(getSurface);
-                String getPrice = price.getEditText().toString();
-                int intPrice = Integer.parseInt(getPrice);
+    private void configureSpinners() {
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type));
+        ArrayAdapter<String> roomAdapter = new ArrayAdapter<>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.number));
+        ArrayAdapter<String> sellerAdapter = new ArrayAdapter<>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sellers));
+        ArrayAdapter<String> availableAdapter = new ArrayAdapter<>(EditActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.available));
 
-                EstateItem item = new EstateItem(position, type, intPrice,
-                        intSurface, numberRoom, city.getEditText().getText().toString(), adress.getEditText().getText().toString());
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sellerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        availableAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(typeAdapter);
+        roomSpinner.setAdapter(roomAdapter);
+        sellerSpinner.setAdapter(sellerAdapter);
+        availableSpinner.setAdapter(availableAdapter);
+    }
 
-                //item.setEstatePictureUri(image_uri.toString());
-                item.setEstateDescription(description.getEditText().getText().toString());
+    private void initView() {
+        typeSpinner = findViewById(R.id.editSpinnerType);
+        roomSpinner = findViewById(R.id.editSpinnerRoom);
+        sellerSpinner = findViewById(R.id.editSpinnerSeller);
+        availableSpinner = findViewById(R.id.editSpinnerAvailable);
+        edit = findViewById(R.id.editButton);
 
-                mApi.editEstate(item, getApplicationContext());
-                itemViewModel.updateItem(item, getApplicationContext());
+        description = findViewById(R.id.editTextDescription);
+        price = findViewById(R.id.editTextPrice);
+        surface = findViewById(R.id.editTextSurface);
+        city = findViewById(R.id.editCityText);
+        adress = findViewById(R.id.editTextAdress);
+        viewPhoto = findViewById(R.id.editViewPhoto);
+    }
 
-                finish();
-            }
-        });
+    private void getDatas() {
+        Intent intent = getIntent();
+        getAdress = intent.getStringExtra("estateAdress");
+        estateType = intent.getStringExtra("estateType");
+        getCity = intent.getStringExtra("estateCity");
+        getDescription = intent.getStringExtra("estateDescription");
+        numberRoom = intent.getIntExtra("estateRoom", 0);
+        numberSurface = intent.getIntExtra("estateSurface", 0);
+        getPrice = intent.getIntExtra("estatePrice", 0);
+        getSeller = intent.getStringExtra("estateSeller");
+        uri = intent.getStringExtra("estatePicture");
+        getAvailable = intent.getStringExtra("estateAvailable");
+        position = intent.getIntExtra("estateId", 0);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         Resources res = getResources();
         String[] type = res.getStringArray(R.array.type);
-        ArrayList<String> typeArray = new ArrayList<String>(Arrays.asList(type));
+        ArrayList<String> typeArray = new ArrayList<>(Arrays.asList(type));
         for(int j=0; j<typeArray.size(); j++) {
             if(typeArray.get(j).contains(estateType)) {
                 typeSpinner.setSelection(j);

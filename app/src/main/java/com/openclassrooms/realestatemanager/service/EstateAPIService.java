@@ -12,14 +12,12 @@ import java.util.concurrent.Executor;
 
 public class EstateAPIService implements EstateAPI {
 
-    private List<EstateItem> estates = new ArrayList<>();
-    private final ItemDataRepository itemDataSource;
+    private final List<EstateItem> estates = new ArrayList<>();
     private final Executor executor;
-    private ItemViewModel itemViewModel;
+    private final ItemViewModel itemViewModel;
 
     public EstateAPIService(ItemDataRepository itemDataSource, Executor executor) {
         itemViewModel = new ItemViewModel(itemDataSource, executor);
-        this.itemDataSource = itemDataSource;
         this.executor = executor;
     }
 
@@ -34,14 +32,7 @@ public class EstateAPIService implements EstateAPI {
     }
 
     @Override
-    public void deleteEstate(EstateItem item) {
-        estates.remove(item);
-    }
-
-    @Override
     public void editEstate(EstateItem item, Context context) {
-        executor.execute(() -> {
-            itemViewModel.updateItem(item, context);
-        });
+        executor.execute(() -> itemViewModel.updateItem(item, context));
     }
 }

@@ -1,23 +1,20 @@
 package com.openclassrooms.realestatemanager.controllers;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -41,74 +38,49 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private TextView detailCity;
     private TextView detailAdress;
     private TextView detailDescription;
-    private TextView date;
-    private TextView detailSeller;
-    private TextView detailEntry;
-
-    private ImageView detailPicture;
-    private String estateUri;
 
     private int estateSurface;
     private int estateRoom;
+    private int estateYear;
+    private int estateMonth;
+    private int estateDay;
+    private int estateEntryYear;
+    private int estateEntryMonth;
+    private int estateEntryDay;
+    private int estatePrice;
     private String estateCity;
     private String estateAdress;
     private String estateDescription;
     private String estateSeller;
     private String estateAvailable;
     private String estateType;
-
-    private ItemViewModel itemViewModel;
+    private String estateUri;
+    private TextView detailSeller;
+    private ImageButton back;
+    private ImageButton edit;
+    private TextView date;
+    private TextView detailEntry;
 
     private int estateId;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
     private GoogleMap map;
-    private ImageButton back;
-    private ImageButton edit;
 
+    public DetailActivity() {
+    }
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        detailSurface = findViewById(R.id.surfaceText);
-        detailRoom = findViewById(R.id.numberRoomText);
-        detailCity = findViewById(R.id.locationCity);
-        detailAdress = findViewById(R.id.locationAdress);
-        detailDescription = findViewById(R.id.detailDescription);
-        detailSeller = findViewById(R.id.sellerText);
-        back = findViewById(R.id.back);
-        edit = findViewById(R.id.editButton);
-        date = findViewById(R.id.showDate);
-        detailEntry = findViewById(R.id.entryText);
+        initView();
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction().add(R.id.map, mapFragment).commit();
         mapFragment.getMapAsync(this);
-        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
 
-        Intent intent = getIntent();
-
-        int estatePrice = intent.getIntExtra("estatePrice", 0);
-        estateType = intent.getStringExtra("estateType");
-        estateId = intent.getIntExtra("estateId", 0);
-        estateSurface = intent.getIntExtra("estateSurface", 0);
-        estateRoom = intent.getIntExtra("estateRoom", 0);
-        estateCity = intent.getStringExtra("estateCity");
-        estateAdress = intent.getStringExtra("estateAdress");
-        estateUri = intent.getStringExtra("estatePicture");
-        estateDescription = intent.getStringExtra("estateDescription");
-        estateSeller = intent.getStringExtra("estateSeller");
-        int estateYear = intent.getIntExtra("estateYear", 0);
-        int estateMonth = intent.getIntExtra("estateMonth", 0);
-        int estateDay = intent.getIntExtra("estateDay", 0);
-        int estateEntryYear = intent.getIntExtra("estateEntryYear", 0);
-        int estateEntryMonth = intent.getIntExtra("estateEntryMonth", 0);
-        int estateEntryDay = intent.getIntExtra("estateEntryDay", 0);
-        estateAvailable = intent.getStringExtra("estateAvailable");
+        getDatas();
 
         String textSurface = String.valueOf(estateSurface);
         String textRoom = String.valueOf(estateRoom);
@@ -127,48 +99,77 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         detailEntry.setText(estateEntryDay+"/"+estateEntryMonth+"/"+estateEntryYear);
         detailSeller.setText(estateSeller);
 
-        //Uri pictureUri = Uri.parse(estateUri);
-        // detailPicture.setImageURI(pictureUri);
-
-        mRecyclerView = findViewById(R.id.photoRecyclerView);
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mAdapter = new ImageAdapter(getApplicationContext(), estateUri);
+        RecyclerView mRecyclerView = findViewById(R.id.photoRecyclerView);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.Adapter mAdapter = new ImageAdapter(getApplicationContext(), estateUri);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
 
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), EditActivity.class);
-                intent.putExtra("estateCity", estateCity);
-                intent.putExtra("estateType", estateType);
-                intent.putExtra("estateDescription", estateDescription);
-                intent.putExtra("estateAdress", estateAdress);
-                intent.putExtra("estateRoom", estateRoom);
-                intent.putExtra("estateSurface", estateSurface);
-                intent.putExtra("estatePrice", estatePrice);
-                intent.putExtra("estateYear", estateYear);
-                intent.putExtra("estateMonth", estateMonth);
-                intent.putExtra("estateDay", estateDay);
-                intent.putExtra("estateEntryDay", estateEntryDay);
-                intent.putExtra("estateEntryMonth", estateEntryMonth);
-                intent.putExtra("estateEntryYear", estateEntryYear);
-                intent.putExtra("estateSeller", estateSeller);
-                intent.putExtra("estateAvailable", estateAvailable);
-                intent.putExtra("estateId", estateId);
-                startActivity(intent);
-            }
+        editItem();
+    }
+
+    private void initView() {
+        detailSurface = findViewById(R.id.surfaceText);
+        detailRoom = findViewById(R.id.numberRoomText);
+        detailCity = findViewById(R.id.locationCity);
+        detailAdress = findViewById(R.id.locationAdress);
+        detailDescription = findViewById(R.id.detailDescription);
+        detailSeller = findViewById(R.id.sellerText);
+        back = findViewById(R.id.back);
+        edit = findViewById(R.id.editButton);
+        date = findViewById(R.id.showDate);
+        detailEntry = findViewById(R.id.entryText);
+    }
+
+    private void editItem() {
+        edit.setOnClickListener(view -> {
+            Intent intent1 = new Intent(getApplicationContext(), EditActivity.class);
+            intent1.putExtra("estateCity", estateCity);
+            intent1.putExtra("estateType", estateType);
+            intent1.putExtra("estateDescription", estateDescription);
+            intent1.putExtra("estateAdress", estateAdress);
+            intent1.putExtra("estateRoom", estateRoom);
+            intent1.putExtra("estateSurface", estateSurface);
+            intent1.putExtra("estatePrice", estatePrice);
+            intent1.putExtra("estateYear", estateYear);
+            intent1.putExtra("estateMonth", estateMonth);
+            intent1.putExtra("estateDay", estateDay);
+            intent1.putExtra("estateEntryDay", estateEntryDay);
+            intent1.putExtra("estateEntryMonth", estateEntryMonth);
+            intent1.putExtra("estateEntryYear", estateEntryYear);
+            intent1.putExtra("estateSeller", estateSeller);
+            intent1.putExtra("estateAvailable", estateAvailable);
+            intent1.putExtra("estateId", estateId);
+            startActivity(intent1);
         });
     }
 
+    private void getDatas() {
+        Intent intent = getIntent();
+
+        estatePrice = intent.getIntExtra("estatePrice", 0);
+        estateType = intent.getStringExtra("estateType");
+        estateId = intent.getIntExtra("estateId", 0);
+        estateSurface = intent.getIntExtra("estateSurface", 0);
+        estateRoom = intent.getIntExtra("estateRoom", 0);
+        estateCity = intent.getStringExtra("estateCity");
+        estateAdress = intent.getStringExtra("estateAdress");
+        estateUri = intent.getStringExtra("estatePicture");
+        estateDescription = intent.getStringExtra("estateDescription");
+        estateSeller = intent.getStringExtra("estateSeller");
+        estateYear = intent.getIntExtra("estateYear", 0);
+        estateMonth = intent.getIntExtra("estateMonth", 0);
+        estateDay = intent.getIntExtra("estateDay", 0);
+        estateEntryYear = intent.getIntExtra("estateEntryYear", 0);
+        estateEntryMonth = intent.getIntExtra("estateEntryMonth", 0);
+        estateEntryDay = intent.getIntExtra("estateEntryDay", 0);
+        estateAvailable = intent.getStringExtra("estateAvailable");
+    }
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
@@ -176,25 +177,22 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         ArrayList<EstateItem> mEstates = new ArrayList<>();
 
         ViewModelFactory viewModelFactory = Injection.provideViewModelFactory(this);
-        this.itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
-        this.itemViewModel.getAllItems().observe(this, new Observer<List<EstateItem>>() {
-            @Override
-            public void onChanged(List<EstateItem> estateItems) {
-                mEstates.clear();
-                mEstates.addAll(estateItems);
+        ItemViewModel itemViewModel = ViewModelProviders.of(this, viewModelFactory).get(ItemViewModel.class);
+        itemViewModel.getAllItems().observe(this, estateItems -> {
+            mEstates.clear();
+            mEstates.addAll(estateItems);
 
-                Intent intent = getIntent();
-                estateId = intent.getIntExtra("estateId", 0);
+            Intent intent = getIntent();
+            estateId = intent.getIntExtra("estateId", 0);
 
-                String textSurface = String.valueOf(mEstates.get(estateId).getEstateSurface());
-                String textRoom = String.valueOf(mEstates.get(estateId).getEstateRoom());
+            String textSurface = String.valueOf(mEstates.get(estateId).getEstateSurface());
+            String textRoom = String.valueOf(mEstates.get(estateId).getEstateRoom());
 
-                detailSurface.setText(textSurface + " sq m");
-                detailRoom.setText(textRoom);
-                detailCity.setText(mEstates.get(estateId).getEstateCity());
-                detailAdress.setText(mEstates.get(estateId).getEstateAdress());
-                detailDescription.setText(mEstates.get(estateId).getEstateDescription());
-            }
+            detailSurface.setText(textSurface + " sq m");
+            detailRoom.setText(textRoom);
+            detailCity.setText(mEstates.get(estateId).getEstateCity());
+            detailAdress.setText(mEstates.get(estateId).getEstateAdress());
+            detailDescription.setText(mEstates.get(estateId).getEstateDescription());
         });
     }
 
@@ -209,7 +207,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void setupMarkers(List<Result> locations) {
-        if(locations != null && locations.isEmpty() == false) {
+        if(locations != null && !locations.isEmpty()) {
             for(int i =0; i<locations.size(); i++) {
                 double lat = locations.get(i).getGeometry().getLocation().getLat();
                 double lng = locations.get(i).getGeometry().getLocation().getLng();

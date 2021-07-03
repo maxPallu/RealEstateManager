@@ -1,14 +1,11 @@
 package com.openclassrooms.realestatemanager.util;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.models.Geocoder;
-import com.openclassrooms.realestatemanager.models.Location;
 import com.openclassrooms.realestatemanager.models.Result;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,14 +27,15 @@ public class ApiCalls {
 
         call.enqueue(new Callback<Geocoder>() {
             @Override
-            public void onResponse(Call<Geocoder> call, Response<Geocoder> response) {
+            public void onResponse(@NonNull Call<Geocoder> call, @NonNull Response<Geocoder> response) {
                 if(callbacks != null) {
+                    assert response.body() != null;
                     callbacks.onResponse(response.body().getResults());
                 }
             }
 
             @Override
-            public void onFailure(Call<Geocoder> call, Throwable t) {
+            public void onFailure(@NonNull Call<Geocoder> call, @NonNull Throwable t) {
                 if(callbacks != null) callbacks.onFailure();
             }
         });

@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.util;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class URLConnection {
@@ -26,11 +24,7 @@ public class URLConnection {
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
             }
-        } catch (MalformedURLException exception) {
-
-        } catch (IOException exception) {
-
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 

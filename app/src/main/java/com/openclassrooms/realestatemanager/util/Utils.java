@@ -1,10 +1,9 @@
 package com.openclassrooms.realestatemanager.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,12 +16,6 @@ import java.util.Objects;
 
 public class Utils {
 
-    /**
-     * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
-     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
-     * @param dollars
-     * @return
-     */
     public static int convertDollarToEuro(int dollars){
         return (int) Math.round(dollars * 0.812);
     }
@@ -31,28 +24,14 @@ public class Utils {
         return (int) Math.round(euro * 1.19);
     }
 
-    /**
-     * Conversion de la date d'aujourd'hui en un format plus approprié
-     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
-     * @return
-     */
     public static String getTodayDate(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }
 
-    /**
-     * Vérification de la connexion réseau
-     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
-     * @param context
-     * @return
-     */
     public static Boolean isInternetAvailable(Context context){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = Objects.requireNonNull(cm).getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
-
-       // WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-       // return wifi.isWifiEnabled();
     }
 }

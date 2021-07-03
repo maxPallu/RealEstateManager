@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateViewHolder> {
 
-    private List<EstateItem> mEstateList;
+    private final List<EstateItem> mEstateList;
 
     public static class EstateViewHolder extends RecyclerView.ViewHolder {
 
@@ -32,7 +34,7 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
         public TextView estateCity;
         public TextView estatePrice;
         public TextView estateSurface;
-        private Context context;
+        private final Context context;
 
         public EstateViewHolder(View itemView) {
             super(itemView);
@@ -50,13 +52,14 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
         mEstateList = estateList;
     }
 
+    @NonNull
     @Override
     public EstateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.estate_item, parent, false);
-        EstateViewHolder evh = new EstateViewHolder(v);
-        return evh;
+        return new EstateViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final EstateViewHolder holder, int position) {
 
@@ -67,63 +70,60 @@ public class EstateAdapter extends RecyclerView.Adapter<EstateAdapter.EstateView
         holder.estatePrice.setText("$ "+currentItem.getEstatePrice());
         Glide.with(holder.context).load(currentItem.getEstatePictureUri()).into(holder.estateImage);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.itemView.setOnClickListener(view -> {
 
-                boolean is_tablet = view.getResources().getBoolean(R.bool.is_tablet);
+            boolean is_tablet = view.getResources().getBoolean(R.bool.is_tablet);
 
-                if(is_tablet) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("estateType", currentItem.getEstateType());
-                    bundle.putString("estateCity", currentItem.getEstateCity());
-                    bundle.putInt("estatePrice", currentItem.getEstatePrice());
-                    bundle.putInt("estateRoom", currentItem.getEstateRoom());
-                    bundle.putInt("estateSurface", currentItem.getEstateSurface());
-                    bundle.putString("estateAdress", currentItem.getEstateAdress());
-                    bundle.putString("estatePicture", currentItem.getEstatePictureUri());
-                    bundle.putString("estateDescription", currentItem.getEstateDescription());
-                    bundle.putInt("estateYear", currentItem.getEstateYear());
-                    bundle.putInt("estateMonth", currentItem.getEstateMonth());
-                    bundle.putInt("estateDay", currentItem.getEstateDay());
-                    bundle.putInt("estateEntryDay", currentItem.getEstateEntryDay());
-                    bundle.putInt("estateEntryMonth", currentItem.getEstateEntryMonth());
-                    bundle.putInt("estateEntryYear", currentItem.getEstateEntryYear());
-                    bundle.putString("estateSeller", currentItem.getEstateSeller());
-                    bundle.putString("estateAvailable", currentItem.getEstateAvailable());
-                    bundle.putInt("estateId", position);
-                    createFragment(view.getContext(), bundle);
+            if(is_tablet) {
+                Bundle bundle = new Bundle();
+                bundle.putString("estateType", currentItem.getEstateType());
+                bundle.putString("estateCity", currentItem.getEstateCity());
+                bundle.putInt("estatePrice", currentItem.getEstatePrice());
+                bundle.putInt("estateRoom", currentItem.getEstateRoom());
+                bundle.putInt("estateSurface", currentItem.getEstateSurface());
+                bundle.putString("estateAdress", currentItem.getEstateAdress());
+                bundle.putString("estatePicture", currentItem.getEstatePictureUri());
+                bundle.putString("estateDescription", currentItem.getEstateDescription());
+                bundle.putInt("estateYear", currentItem.getEstateYear());
+                bundle.putInt("estateMonth", currentItem.getEstateMonth());
+                bundle.putInt("estateDay", currentItem.getEstateDay());
+                bundle.putInt("estateEntryDay", currentItem.getEstateEntryDay());
+                bundle.putInt("estateEntryMonth", currentItem.getEstateEntryMonth());
+                bundle.putInt("estateEntryYear", currentItem.getEstateEntryYear());
+                bundle.putString("estateSeller", currentItem.getEstateSeller());
+                bundle.putString("estateAvailable", currentItem.getEstateAvailable());
+                bundle.putInt("estateId", position);
+                createFragment(view.getContext(), bundle);
 
-                } else {
-                    Intent intent = new Intent(view.getContext(), DetailActivity.class);
+            } else {
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
 
-                    intent.putExtra("estatePrice", currentItem.getEstatePrice());
-                    intent.putExtra("estateType", currentItem.getEstateType());
-                    intent.putExtra("estateCity", currentItem.getEstateCity());
-                    intent.putExtra("estatePrice", currentItem.getEstatePrice());
-                    intent.putExtra("estateRoom", currentItem.getEstateRoom());
-                    intent.putExtra("estateSurface", currentItem.getEstateSurface());
-                    intent.putExtra("estateAdress", currentItem.getEstateAdress());
-                    intent.putExtra("estatePicture", currentItem.getEstatePictureUri());
-                    intent.putExtra("estateDescription", currentItem.getEstateDescription());
-                    intent.putExtra("estateYear", currentItem.getEstateYear());
-                    intent.putExtra("estateMonth", currentItem.getEstateMonth());
-                    intent.putExtra("estateDay", currentItem.getEstateDay());
-                    intent.putExtra("estateEntryDay", currentItem.getEstateEntryDay());
-                    intent.putExtra("estateEntryMonth", currentItem.getEstateEntryMonth());
-                    intent.putExtra("estateEntryYear", currentItem.getEstateEntryYear());
-                    intent.putExtra("estateSeller", currentItem.getEstateSeller());
-                    intent.putExtra("estateAvailable", currentItem.getEstateAvailable());
-                    intent.putExtra("estateId", position);
+                intent.putExtra("estatePrice", currentItem.getEstatePrice());
+                intent.putExtra("estateType", currentItem.getEstateType());
+                intent.putExtra("estateCity", currentItem.getEstateCity());
+                intent.putExtra("estatePrice", currentItem.getEstatePrice());
+                intent.putExtra("estateRoom", currentItem.getEstateRoom());
+                intent.putExtra("estateSurface", currentItem.getEstateSurface());
+                intent.putExtra("estateAdress", currentItem.getEstateAdress());
+                intent.putExtra("estatePicture", currentItem.getEstatePictureUri());
+                intent.putExtra("estateDescription", currentItem.getEstateDescription());
+                intent.putExtra("estateYear", currentItem.getEstateYear());
+                intent.putExtra("estateMonth", currentItem.getEstateMonth());
+                intent.putExtra("estateDay", currentItem.getEstateDay());
+                intent.putExtra("estateEntryDay", currentItem.getEstateEntryDay());
+                intent.putExtra("estateEntryMonth", currentItem.getEstateEntryMonth());
+                intent.putExtra("estateEntryYear", currentItem.getEstateEntryYear());
+                intent.putExtra("estateSeller", currentItem.getEstateSeller());
+                intent.putExtra("estateAvailable", currentItem.getEstateAvailable());
+                intent.putExtra("estateId", position);
 
-                    view.getContext().startActivity(intent);
-                }
+                view.getContext().startActivity(intent);
             }
         });
     }
 
     private void createFragment(Context context, Bundle bundle) {
-        DetailFragment detailFragment = new DetailFragment();
+        DetailFragment detailFragment;
 
         detailFragment = (DetailFragment) ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag("DetailFragment");
 

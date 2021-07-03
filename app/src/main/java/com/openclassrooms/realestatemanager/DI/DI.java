@@ -10,9 +10,10 @@ import java.util.concurrent.Executors;
 public class DI {
 
     private static ItemDataRepository itemDataSource;
-    private static Executor executor = Executors.newSingleThreadExecutor();
+    private static final Executor executor = Executors.newSingleThreadExecutor();
 
-    private static EstateAPI service = new EstateAPIService(itemDataSource, executor);
+    private static final EstateAPI service = new EstateAPIService(itemDataSource, executor);
 
     public static EstateAPI getEstateApiService() { return service; }
+
 }

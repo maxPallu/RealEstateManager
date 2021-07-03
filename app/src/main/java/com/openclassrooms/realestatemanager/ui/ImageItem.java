@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui;
 
-import android.widget.ImageView;
 
 public class ImageItem {
 

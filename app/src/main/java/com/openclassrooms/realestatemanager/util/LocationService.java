@@ -15,7 +15,7 @@ public interface LocationService {
     @GET("/maps/api/geocode/json?&key=AIzaSyC_xgD6R-yxQK5ZkL4gknpSH5ND2-BFZck")
     Call<Geocoder> getLocation(@Query("address") String address);
 
-    public static final Retrofit retrofit = new Retrofit.Builder()
+    Retrofit retrofit = new Retrofit.Builder()
                                                 .baseUrl("https://maps.googleapis.com")
                                                 .addConverterFactory(GsonConverterFactory.create())
                                                 .build();

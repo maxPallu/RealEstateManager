@@ -16,13 +16,12 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private Context getContext;
-    private String uri;
-    private ArrayList<ImageItem> mImages = new ArrayList<>();
+    private final String uri;
+    private final ArrayList<ImageItem> mImages = new ArrayList<>();
 
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private Context context;
+        private final ImageView imageView;
+        private final Context context;
 
         public ImageViewHolder(View view) {
             super(view);
@@ -34,7 +33,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     public ImageAdapter(Context context, String imageUri) {
-        getContext = context;
         uri = imageUri;
         ImageItem image = new ImageItem(imageUri);
         mImages.add(image);
@@ -44,8 +42,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_item, parent, false);
-        ImageViewHolder ivh = new ImageViewHolder(v);
-        return ivh;
+        return new ImageViewHolder(v);
     }
 
     @Override
