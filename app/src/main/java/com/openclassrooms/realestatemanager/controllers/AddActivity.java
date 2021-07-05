@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.Nullable;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -152,6 +154,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         });
     }
 
+    @SuppressLint("ShowToast")
     private void addItem() {
         add.setOnClickListener(view -> {
 
@@ -169,8 +172,15 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
             mApi.createEstate(item);
             itemViewModel.createItem(item);
-
-            finish();
+            Snackbar.make(view, "Your new Estate is created", Snackbar.LENGTH_SHORT)
+                    .addCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            super.onDismissed(snackbar, event);
+                            finish();
+                        }
+                    })
+                    .show();
         });
     }
 
